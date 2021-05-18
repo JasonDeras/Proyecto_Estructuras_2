@@ -26,6 +26,8 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jsp_Tabla = new javax.swing.JScrollPane();
+        Table = new javax.swing.JTable();
         jmb_Principal = new javax.swing.JMenuBar();
         jm_Archivo = new javax.swing.JMenu();
         jmi_Nuevo_Archivo = new javax.swing.JMenuItem();
@@ -52,6 +54,26 @@ public class Main extends javax.swing.JFrame {
         jmi_Exportrar_XML = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        Table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        Table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableMouseClicked(evt);
+            }
+        });
+        Table.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                TablePropertyChange(evt);
+            }
+        });
+        jsp_Tabla.setViewportView(Table);
 
         jm_Archivo.setText("Archivo");
 
@@ -223,11 +245,17 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jsp_Tabla, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jsp_Tabla, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -322,6 +350,16 @@ public class Main extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jmi_Exportrar_XMLActionPerformed
 
+    private void TableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_TableMouseClicked
+
+    private void TablePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_TablePropertyChange
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_TablePropertyChange
+
     /**
      * @param args the command line arguments
      */
@@ -358,6 +396,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Table;
     private javax.swing.JMenu jm_Archivo;
     private javax.swing.JMenu jm_Estandarizacion;
     private javax.swing.JMenu jm_Registros;
@@ -382,5 +421,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_cruzar;
     private javax.swing.JMenuItem jmi_modreg;
     private javax.swing.JMenuItem jmi_reindexar;
+    private javax.swing.JScrollPane jsp_Tabla;
     // End of variables declaration//GEN-END:variables
 }
