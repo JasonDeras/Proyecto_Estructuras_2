@@ -1,3 +1,8 @@
+
+import java.awt.Color;
+import java.awt.Font;
+import static java.awt.Frame.MAXIMIZED_BOTH;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,6 +20,19 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+        this.setTitle("Principal - 11741159-11811146");
+        this.setExtendedState(MAXIMIZED_BOTH);
+        //Creating temporary or permanent metadata depending on user input.
+        metadata = new Metadata();
+        //Setting up table default design.
+        this.setLocationRelativeTo(null);
+        Table.setForeground(Color.BLACK);
+        Table.setBackground(Color.WHITE);
+        Table.setFont(new Font("", 1, 22));
+        Table.setRowHeight(30);
+        Table.putClientProperty("terminateEditOnFocusLost", true);
+        cleanTable = Table.getModel();
+    
     }
 
     /**
@@ -263,7 +281,7 @@ public class Main extends javax.swing.JFrame {
 
     private void jmi_Nuevo_ArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Nuevo_ArchivoActionPerformed
         // TODO add your handling code here:
-        
+        Nuevo_Archivo();
     }//GEN-LAST:event_jmi_Nuevo_ArchivoActionPerformed
 
     private void jmi_Salvar_ArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Salvar_ArchivoActionPerformed
