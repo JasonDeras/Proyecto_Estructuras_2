@@ -1,29 +1,17 @@
-
 import java.awt.Color;
 import java.awt.Font;
 import static java.awt.Frame.MAXIMIZED_BOTH;
+import javax.swing.table.TableModel;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- *
- * @author jason
- */
 public class Main extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Main
-     */
+    
     public Main() {
         initComponents();
-        this.setTitle("Principal - 11741159-11811146");
+        this.setTitle("Principal");
         this.setExtendedState(MAXIMIZED_BOTH);
-        //Creating temporary or permanent metadata depending on user input.
-        metadata = new Metadata();
+        //metadata = new Metadata();
         //Setting up table default design.
         this.setLocationRelativeTo(null);
         Table.setForeground(Color.BLACK);
@@ -281,7 +269,6 @@ public class Main extends javax.swing.JFrame {
 
     private void jmi_Nuevo_ArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Nuevo_ArchivoActionPerformed
         // TODO add your handling code here:
-        Nuevo_Archivo();
     }//GEN-LAST:event_jmi_Nuevo_ArchivoActionPerformed
 
     private void jmi_Salvar_ArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Salvar_ArchivoActionPerformed
@@ -441,4 +428,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_reindexar;
     private javax.swing.JScrollPane jsp_Tabla;
     // End of variables declaration//GEN-END:variables
+ Metadata metadata;
+ TableModel cleanTable;
 }
