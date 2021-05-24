@@ -11,6 +11,10 @@ public class Metadata implements Serializable {
     private long Campos_en_Archivo;
     private int sizeMeta;
 
+    Metadata() {
+        
+    }
+
     public int getSizeMeta() {
         return sizeMeta;
     }
