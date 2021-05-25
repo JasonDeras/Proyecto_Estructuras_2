@@ -1,13 +1,19 @@
 import java.awt.Color;
 import java.awt.Font;
 import static java.awt.Frame.MAXIMIZED_BOTH;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.RandomAccessFile;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -28,10 +34,133 @@ private void BuildTable(Metadata metadata, int funcion) {
 
 }
 
-public void Salvar_Archivo() {
-    JOptionPane.showMessageDialog(null, "Su file se ha guardado exitosamente! ...Always On Saving!");
-}
+private void Nuevo_Archivo() {
+        
+        String direction;
+        int option = JOptionPane.showConfirmDialog(this, "Desea Salvar su Proceoso?");
+        
+        if (option == JOptionPane.NO_OPTION) {
+            Crear_Archivo(); 
+            if (FileSuccess == 1) {
+                metadata = new Metadata();
+                BuildTable(metadata, 1);
+            }
+
+        } else if (option == JOptionPane.YES_OPTION) {
+            Salvar_Archivo();
+        } else {
+        }
+    }
     
+private void Crear_Archivo() {
+
+        FileSuccess = 0;
+        String direction;
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File("./"));
+        FileNameExtensionFilter data = new FileNameExtensionFilter("DAT FILE", "dat");
+        fileChooser.setFileFilter(data);
+        int seleccion = fileChooser.showSaveDialog(this);
+        
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            
+            File file = null;
+            FileOutputStream fos = null;
+            ObjectOutputStream ous = null;
+            
+            try {
+                if (fileChooser.getFileFilter().getDescription().equals("DAT FILE")) {
+                    direction = fileChooser.getSelectedFile().getPath().toString() + ".dat";
+                    direction = direction.replace(".dat", "");
+                    direction += ".dat";
+                    
+                    file = new File(direction);
+                    if (file.length() == 0) {                   
+                        this.file = new File(direction);
+                        JOptionPane.showMessageDialog(this, "Sucesso!\n Calquier progreso sin salvar se perdio");
+
+                    } else if (file.exists()) {
+                        file.delete();
+                        file.createNewFile();
+                        this.file = new File(direction);
+                        JOptionPane.showMessageDialog(this, "File OverWritten, New Length: " + file.length());
+                    }
+                    FileSuccess = 1;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Unable to save. Use DAT FILE.");
+                }
+                fos = new FileOutputStream(file);
+                ous = new ObjectOutputStream(fos);
+                ous.flush();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Algo salio mal");
+            }
+            try {
+                ous.close();
+                fos.close();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Cerrando Archivos.");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Operation aborted!");
+        }
+    }
+    
+public void Salvar_Archivo() {
+        JOptionPane.showMessageDialog(null, "Su file se ha guardado exitosamente! ...Always On Saving!");
+    }
+    
+public void CargarMetadatos() throws ClassNotFoundException {
+        try {
+            RAfile = new RandomAccessFile(file, "rw");
+            int tamaño = RAfile.readInt();
+            byte[] data = new byte[tamaño];
+            RAfile.read(data);
+            ByteArrayInputStream in = new ByteArrayInputStream(data);
+            ObjectInputStream read = new ObjectInputStream(in);
+            metadata = (Metadata) read.readObject();
+            metadata.setSizeMeta(tamaño);
+        } catch (IOException ex) {
+        }
+    }
+
+public void Cargar_Archivo() {
+        
+        FileSuccess = 0;
+        String direction;
+
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File("./"));
+        FileNameExtensionFilter data = new FileNameExtensionFilter("DAT FILE", "dat");
+        fileChooser.setFileFilter(data);
+        int seleccion = fileChooser.showOpenDialog(this);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            File file = null;
+            try {
+                if (fileChooser.getFileFilter().getDescription().equals("DAT FILE")) {
+                    direction = fileChooser.getSelectedFile().getPath() + ".dat";
+                    file = fileChooser.getSelectedFile();
+                    this.file = file;
+                    JOptionPane.showMessageDialog(null, "Sucess!");
+                    FileSuccess = 1;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Unable to Load. Use DAT FILE.");
+                }
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Something Went Wrong! Contact System Administrator.");
+            }
+            try {
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Fatal error closing files.");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Operation aborted!");
+        }
+    }
+
     public Main() {
         initComponents();
         this.setTitle("Principal");
@@ -289,21 +418,38 @@ public void Salvar_Archivo() {
 
     private void jmi_Nuevo_ArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Nuevo_ArchivoActionPerformed
         // TODO add your handling code here:
+         Nuevo_Archivo();
     }//GEN-LAST:event_jmi_Nuevo_ArchivoActionPerformed
 
     private void jmi_Salvar_ArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Salvar_ArchivoActionPerformed
         // TODO add your handling code here:
-        
+        Salvar_Archivo();
     }//GEN-LAST:event_jmi_Salvar_ArchivoActionPerformed
 
     private void jmi_Cerrar_ArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Cerrar_ArchivoActionPerformed
         // TODO add your handling code here:
-      
+      try {
+            RAfile.close();
+            Table.setModel(cleanTable);
+            JOptionPane.showMessageDialog(null, "Cerrado Exitosamente", "Cerrado", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al cerrar", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jmi_Cerrar_ArchivoActionPerformed
 
     private void jmi_Cargar_ArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Cargar_ArchivoActionPerformed
         // TODO add your handling code here:
-        
+        Cargar_Archivo();
+        if (FileSuccess == 1) {
+            metadata = new Metadata();
+            BuildTable(metadata, 1);
+            try {
+                CargarMetadatos();
+                BuildTable(metadata, 0);
+                //LeerDatosRegistro();
+            } catch (ClassNotFoundException ex) {
+            }
+        }
     }//GEN-LAST:event_jmi_Cargar_ArchivoActionPerformed
 
     private void jmi_SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_SalirActionPerformed
