@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.awt.Font;
-import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,31 +10,142 @@ import java.io.ObjectOutputStream;
 import java.io.RandomAccessFile;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import javax.swing.CellEditor;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+//import static org.apache.poi.hssf.usermodel.HeaderFooter.file;
+//import org.apache.xmlbeans.StringEnumAbstractBase.Table;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
 
 public class Main extends javax.swing.JFrame {
 
-private void BuildTable(Metadata metadata, int funcion) {
-    if (funcion == 0) {
-        Object[] campos = metadata.getCampos().toArray();
-        DefaultTableModel tabla = new DefaultTableModel();
-        tabla.setColumnCount(campos.length);
-
-        tabla.setColumnIdentifiers(campos);
-        Table.setModel(tabla);
-    } else if (funcion == 1) {
-        Table.setModel(cleanTable);
+    public void Salvar_Archivo() {
+        JOptionPane.showMessageDialog(null, "Su file se ha guardado exitosamente! ...Always On Saving!");
     }
+    
+    public void Cargar_Archivo() {
+        
+        FileSuccess = 0;
+        String direction;
 
-}
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File("./"));
+        FileNameExtensionFilter data = new FileNameExtensionFilter("DAT FILE", "dat");
+        fileChooser.setFileFilter(data);
+        int seleccion = fileChooser.showOpenDialog(this);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            File file = null;
+            try {
+                if (fileChooser.getFileFilter().getDescription().equals("DAT FILE")) {
+                    direction = fileChooser.getSelectedFile().getPath() + ".dat";
+                    file = fileChooser.getSelectedFile();
+                    this.file = file;
+                    JOptionPane.showMessageDialog(null, "Sucess!");
+                    FileSuccess = 1;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Unable to Load. Use DAT FILE.");
+                }
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Something Went Wrong! Contact System Administrator.");
+            }
+            try {
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Fatal error closing files.");
+            }
 
-private void Nuevo_Archivo() {
+        } else {
+            JOptionPane.showMessageDialog(null, "Operation aborted!");
+        }
+    }
+    
+    private void BuildTable(Metadata metadata, int funcion) {
+        if (funcion == 0) { 
+            Object[] campos = metadata.getCampos().toArray();
+            DefaultTableModel tabla = new DefaultTableModel();
+            tabla.setColumnCount(campos.length);
+
+            tabla.setColumnIdentifiers(campos);
+            Table.setModel(tabla);
+        } else if (funcion == 1) {
+            Table.setModel(cleanTable);
+        }
+
+    }
+    
+    public void CargarMetadatos() throws ClassNotFoundException {
+        try {
+            RAfile = new RandomAccessFile(file, "rw");
+            int tamaño = RAfile.readInt();
+            byte[] data = new byte[tamaño];
+            RAfile.read(data);
+            ByteArrayInputStream in = new ByteArrayInputStream(data);
+            ObjectInputStream read = new ObjectInputStream(in);
+            metadata = (Metadata) read.readObject();
+            metadata.setSizeMeta(tamaño);
+        } catch (IOException ex) {
+        }
+    }
+   
+    public void LeerDatosRegistro() throws ClassNotFoundException {
+        
+        try {
+
+            RAfile = new RandomAccessFile(file, "rw");
+            RAfile.seek(0);
+            int tamaño = RAfile.readInt();
+            RAfile.seek(tamaño + 4);
+            
+            boolean eliminado = false;
+            
+            while (RAfile.getFilePointer() < RAfile.length()) {
+                eliminado = false;
+                tamaño = RAfile.readInt();
+                byte[] data = new byte[tamaño];
+                RAfile.read(data);
+                ByteArrayInputStream in = new ByteArrayInputStream(data);
+                ObjectInputStream read = new ObjectInputStream(in);
+                Data d = (Data) read.readObject();
+                if (d.getSize_alter().contains("*")) {
+                    eliminado = true;
+                    AvailList.BestFit(tamaño, d.ubicacion);
+
+                } else {
+                    Export2 = new ArrayList<>();
+                    Registro temporal = new Registro(d.getKey());
+                    temporal.setByteOffset(d.getUbicacion());
+                    metadata.getArbolB().insert(temporal);
+                    for (int i = 0; i < d.getDatos().size(); i++) {
+                        Export2.add(d.getDatos().get(i));
+
+                    }
+                    Table_Insert_Registro();
+
+                }
+
+            }
+            metadata.ArbolB.traverse();
+            metadata.ArbolB.PrintLevels();
+        } catch (IOException ex) {
+        }
+    }
+    
+    private void Nuevo_Archivo() {
         
         String direction;
         int option = JOptionPane.showConfirmDialog(this, "Desea Salvar su Proceoso?");
@@ -52,7 +163,7 @@ private void Nuevo_Archivo() {
         }
     }
     
-private void Crear_Archivo() {
+    private void Crear_Archivo() {
 
         FileSuccess = 0;
         String direction;
@@ -106,61 +217,338 @@ private void Crear_Archivo() {
             JOptionPane.showMessageDialog(null, "Operation aborted!");
         }
     }
-    
-public void Salvar_Archivo() {
-        JOptionPane.showMessageDialog(null, "Su file se ha guardado exitosamente! ...Always On Saving!");
+     
+    public void Escribir_Metadatos() throws IOException {
+        
+        RAfile = new RandomAccessFile(file, "rw");
+        ByteArrayOutputStream obArray = new ByteArrayOutputStream();
+        ObjectOutputStream objeto = new ObjectOutputStream(obArray);
+        objeto.writeObject(metadata);
+        byte[] datos = obArray.toByteArray();
+        RAfile.seek(0);
+        RAfile.writeInt(datos.length);
+        RAfile.write(datos);
+        metadata.setSizeMeta((int) RAfile.length());
+
     }
     
-public void CargarMetadatos() throws ClassNotFoundException {
+    private void Crear_Registro() {
+        
+        TableModel model = Table.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) model;
+
+        Object[] insertarray = new Object[metadata.getCampos().size()];
+        for (int i = 0; i < metadata.getCampos().size(); i++) {
+            boolean exito = false;
+            while (exito == false) {
+                try {
+                    String temp = JOptionPane.showInputDialog(null, "Ingrese: " + metadata.getCampos().get(i).toString() + "\n\nTipo: 1.Int\n2.Long\n3.String\n4.Char\n\n Tipo:  " + metadata.getTipos().get(i).toString());
+                    if (Integer.parseInt(metadata.getTipos().get(i).toString()) == 1) {
+                        insertarray[i] = Integer.parseInt(temp);
+                    } else if (Integer.parseInt(metadata.getTipos().get(i).toString()) == 2) {
+                        insertarray[i] = Long.parseLong(temp);
+                    } else if (Integer.parseInt(metadata.getTipos().get(i).toString()) == 3) {
+                        insertarray[i] = temp;
+                    } else if (Integer.parseInt(metadata.getTipos().get(i).toString()) == 4) {
+                        insertarray[i] = temp.charAt(0);
+                    }
+                    exito = true;
+                } catch (Exception e) {
+                }
+            }
+
+        }
+        ArrayList export2 = new ArrayList();
+
+        for (int i = 0; i < insertarray.length; i++) {
+            export2.add(insertarray[i]);
+        }
+        Registro temporal = new Registro(Integer.parseInt(insertarray[0].toString()));
+
+        if (metadata.getArbolB().search(temporal) == null) {
+            if (Integer.parseInt(insertarray[0].toString()) >=1 && Integer.parseInt(insertarray[0].toString()) < 100000) {
+                metadata.getArbolB().insert(temporal);
+                modelo.addRow(insertarray);
+                metadata.addnumregistros();
+                try {
+                    Escribir_Datos_Registro(export2);
+                    Buscar_Dato_Archivo(temporal);
+                } catch (Exception ex) {
+                }
+                
+                Table.setModel(modelo);
+            } else {
+                JOptionPane.showMessageDialog(null, "Ingrese valores entre 9999 y 100,000");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Una Instancia del Registro ya existe.");
+        }
+
+    }
+    
+    public void Escribir_Datos_Registro(ArrayList<Object> info_registro) {
+
         try {
-            RAfile = new RandomAccessFile(file, "rw");
+            if (AvailList.head != null) {
+
+                Data datos = new Data();
+                Registro temporal = new Registro(Integer.parseInt(info_registro.get(0).toString()));
+                long byteOffset = RAfile.length();
+                BNode d = metadata.getArbolB().search(temporal);
+                int x = searchEnNodo(d, temporal.getKey());
+
+                d.key[x].setByteOffset(byteOffset);
+                datos.setDatos(info_registro);
+                datos.setUbicacion(byteOffset);
+
+                ByteArrayOutputStream obArray = new ByteArrayOutputStream();
+                ObjectOutputStream objeto = new ObjectOutputStream(obArray);
+                objeto.writeObject(datos);
+
+                byte[] dat = obArray.toByteArray();
+                int required_size = dat.length;
+                LinkedList.Node espacio = AvailList.SearchSpace(required_size);
+                
+                if (espacio == null) {
+                    RAfile.seek(byteOffset);
+                    RAfile.writeInt(dat.length);
+                    RAfile.write(dat);
+                } else {
+                    datos.setUbicacion(espacio.posicion);
+                    int j = 0;
+                    for (int i = 0; i < (espacio.data - dat.length); i++) {
+                        datos.setSize_alter(datos.getSize_alter() + "|");
+                        j++;
+                    }
+
+                    obArray = new ByteArrayOutputStream();
+                    objeto = new ObjectOutputStream(obArray);
+                    objeto.writeObject(datos);
+                    dat = obArray.toByteArray();
+                    d.key[x].setByteOffset(datos.ubicacion);
+
+                    RAfile.seek(datos.ubicacion);
+                    RAfile.writeInt(dat.length);
+                    RAfile.write(dat);
+                    AvailList.deleteNode(AvailList.head, espacio);
+                }
+            } else {
+                Data datos = new Data();
+                Registro temporal = new Registro(Integer.parseInt(info_registro.get(0).toString()));
+                long byteOffset = RAfile.length();
+                BNode d = metadata.getArbolB().search(temporal);
+                int x = searchEnNodo(d, temporal.getKey());
+
+                d.key[x].setByteOffset(byteOffset);
+                datos.setDatos(info_registro);
+                datos.setUbicacion(byteOffset);
+
+                ByteArrayOutputStream obArray = new ByteArrayOutputStream();
+                ObjectOutputStream objeto = new ObjectOutputStream(obArray);
+                objeto.writeObject(datos);
+                byte[] dat = obArray.toByteArray();
+                RAfile.seek(byteOffset);
+                RAfile.writeInt(dat.length);
+                RAfile.write(dat);
+            }
+
+        } catch (IOException | NumberFormatException ex) {
+        }
+
+    }
+
+    private void Table_Insert_Registro() {
+        
+        TableModel model = Table.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) model;
+        metadata.addnumregistros();
+
+        Object insertArray[] =Export2.toArray();
+
+        modelo.addRow(insertArray);
+
+        Table.setModel(model);
+
+    }
+     
+    public Data Buscar_Dato_Archivo(Registro r) throws IOException, ClassNotFoundException {
+        
+       if (metadata.getArbolB().search(r) != null) {
+            BNode contenido = metadata.getArbolB().search(r);
+            int pos = searchEnNodo(contenido, r.getKey());
+            long byteOffset = contenido.key[pos].byteOffset;
+            RAfile.seek(byteOffset);
             int tamaño = RAfile.readInt();
             byte[] data = new byte[tamaño];
             RAfile.read(data);
             ByteArrayInputStream in = new ByteArrayInputStream(data);
             ObjectInputStream read = new ObjectInputStream(in);
-            metadata = (Metadata) read.readObject();
-            metadata.setSizeMeta(tamaño);
-        } catch (IOException ex) {
-        }
-    }
+            Data d = (Data) read.readObject();
 
-public void Cargar_Archivo() {
-        
-        FileSuccess = 0;
-        String direction;
-
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File("./"));
-        FileNameExtensionFilter data = new FileNameExtensionFilter("DAT FILE", "dat");
-        fileChooser.setFileFilter(data);
-        int seleccion = fileChooser.showOpenDialog(this);
-        if (seleccion == JFileChooser.APPROVE_OPTION) {
-            File file = null;
-            try {
-                if (fileChooser.getFileFilter().getDescription().equals("DAT FILE")) {
-                    direction = fileChooser.getSelectedFile().getPath() + ".dat";
-                    file = fileChooser.getSelectedFile();
-                    this.file = file;
-                    JOptionPane.showMessageDialog(null, "Sucess!");
-                    FileSuccess = 1;
-                } else {
-                    JOptionPane.showMessageDialog(this, "Unable to Load. Use DAT FILE.");
-                }
-                
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Something Went Wrong! Contact System Administrator.");
-            }
-            try {
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Fatal error closing files.");
-            }
-
+            return d;
         } else {
-            JOptionPane.showMessageDialog(null, "Operation aborted!");
+            return null;
+        }
+
+    }
+    
+    public int searchEnNodo(BNode d, int key) {
+        
+       int pos = 0;
+        if (d != null) {
+            for (int i = 0; i < d.n; i++) {
+                if (d.key[i].getKey() == key) {
+                    break;
+                } else {
+                    pos++;
+                }
+            }
+        } else {
+        }
+        return pos;
+    }
+    
+    public void Eliminar_Dato_Archivo(ArrayList<Object> export) {
+
+        try {
+            Registro temporal = new Registro(Integer.parseInt(export.get(0).toString()));
+            
+            if (Buscar_Dato_Archivo(temporal) != null) {
+                
+                Data temp = Buscar_Dato_Archivo(temporal);
+                RAfile.seek(temp.ubicacion);
+                int size_act = RAfile.readInt();
+                temp.setSize_alter("*");
+                temp.size_alter = "*";
+                BNode b = metadata.ArbolB.search(temporal);
+                int pos = searchEnNodo(b, temporal.key);
+                long ubicacion = b.key[pos].getByteOffset();
+                temp.ubicacion = ubicacion;
+
+                ByteArrayOutputStream obArray = new ByteArrayOutputStream();
+                ObjectOutputStream objeto = new ObjectOutputStream(obArray);
+
+                obArray = new ByteArrayOutputStream();
+                objeto = new ObjectOutputStream(obArray);
+                objeto.writeObject(temp);
+
+                byte[] dat2 = obArray.toByteArray();
+                RAfile.write(dat2);
+
+                AvailList.BestFit(size_act, temp.ubicacion);
+                AvailList.ImprimeListaEnlazada(AvailList.head);
+                metadata.ArbolB.remove(temporal);
+
+            }
+        } catch (Exception ex) {
         }
     }
+    
+    public void Modificar_Dato_Archivo(ArrayList<Object> Export) {
+        try {
+            Registro temporal = new Registro(Integer.parseInt(Export.get(0).toString()));
+            if (Buscar_Dato_Archivo(temporal) != null) {
+                Data temp = Buscar_Dato_Archivo(temporal);
+                temporal.setByteOffset(temp.ubicacion);
+                RAfile.seek(temp.ubicacion);
+                int size_act = RAfile.readInt();
 
+                Data new_size = new Data();
+                new_size.setKey((int) Export.get(0));
+                new_size.setDatos(Export);
+                new_size.setUbicacion(temp.getUbicacion());
+                ByteArrayOutputStream obArray = new ByteArrayOutputStream();
+                ObjectOutputStream objeto = new ObjectOutputStream(obArray);
+                objeto.writeObject(new_size);
+                byte[] dat = obArray.toByteArray();
+
+                if (dat.length <= size_act) {
+                    for (int i = 0; i < (size_act - dat.length); i++) {
+                        new_size.setSize_alter(new_size.getSize_alter() + "|");
+                    }
+                    
+                    obArray = new ByteArrayOutputStream();
+                    objeto = new ObjectOutputStream(obArray);
+                    objeto.writeObject(new_size);
+                    dat = obArray.toByteArray(); 
+                    RAfile.write(dat);
+
+                } else {
+                    temp.setSize_alter("*");
+                    obArray = new ByteArrayOutputStream();
+                    objeto = new ObjectOutputStream(obArray);
+                    objeto.writeObject(temp);
+                    byte[] dat2 = obArray.toByteArray();
+                    RAfile.write(dat2);
+
+                    long byteOffset = RAfile.length();
+
+                    new_size.setUbicacion(byteOffset);
+                    obArray = new ByteArrayOutputStream();
+                    objeto = new ObjectOutputStream(obArray);
+                    objeto.writeObject(new_size);
+                    dat = obArray.toByteArray();
+
+                    RAfile.seek(byteOffset);
+                    RAfile.writeInt(dat.length);
+                    RAfile.write(dat);
+
+                    BNode tmp = metadata.getArbolB().search(temporal);
+                    int ubicacion = searchEnNodo(tmp, temp.getKey());
+                    tmp.key[ubicacion].byteOffset = byteOffset;
+
+                    AvailList.BestFit(size_act, temporal.byteOffset);
+                    AvailList.ImprimeListaEnlazada(AvailList.head);
+
+                }
+            }
+        } catch (Exception ex) {
+        }
+    }
+    
+    /*public static void exportXML(ArrayList Campos, ArrayList Regs, String Direccion) {
+        
+         Document document = null;
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        try {
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            DOMImplementation implementation = builder.getDOMImplementation();
+            document = implementation.createDocument(null, "xml", null);
+
+            for (int i = 0; i < Regs.size(); i++) {
+                Element registro = document.createElement("Registro" + i);
+                document.getDocumentElement().appendChild(registro);
+                ArrayList<Element> elementos = new ArrayList();
+
+                for (int j = 0; j < Campos.size(); j++) {
+                    Element campos = document.createElement(Campos.get(j).toString());
+                    elementos.add(campos);
+                }
+
+                for (int h = 0; h < elementos.size(); h++) {
+                    registro.appendChild(elementos.get(h));
+                    Text valorCampo = document.createTextNode(Regs.get(h).toString());
+                    elementos.get(h).appendChild(valorCampo);
+                    document.setXmlVersion("1.0");
+
+                }
+            }
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+
+            File archivo = new File(Direccion + ".xml");
+
+            DOMSource source = new DOMSource(document);
+            StreamResult result = new StreamResult(archivo);
+            transformer.transform(source, result);
+
+        } catch (Exception e) {
+
+        }
+    }*/
+    
     public Main() {
         initComponents();
         this.setTitle("Principal");
@@ -418,7 +806,7 @@ public void Cargar_Archivo() {
 
     private void jmi_Nuevo_ArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Nuevo_ArchivoActionPerformed
         // TODO add your handling code here:
-         Nuevo_Archivo();
+          Nuevo_Archivo();
     }//GEN-LAST:event_jmi_Nuevo_ArchivoActionPerformed
 
     private void jmi_Salvar_ArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Salvar_ArchivoActionPerformed
@@ -428,7 +816,7 @@ public void Cargar_Archivo() {
 
     private void jmi_Cerrar_ArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Cerrar_ArchivoActionPerformed
         // TODO add your handling code here:
-      try {
+     try {
             RAfile.close();
             Table.setModel(cleanTable);
             JOptionPane.showMessageDialog(null, "Cerrado Exitosamente", "Cerrado", JOptionPane.INFORMATION_MESSAGE);
@@ -493,7 +881,7 @@ public void Cargar_Archivo() {
 
     private void jmi_Borrar_CampoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Borrar_CampoActionPerformed
         // TODO add your handling code here:
-       if (metadata.getNumregistros() == 0 && metadata.getCampos() != null) {
+      if (metadata.getNumregistros() == 0 && metadata.getCampos() != null) {
             try {
                 if (metadata.getCampos().size() == 0) {
                     JOptionPane.showMessageDialog(null, "Operacion Invalida");

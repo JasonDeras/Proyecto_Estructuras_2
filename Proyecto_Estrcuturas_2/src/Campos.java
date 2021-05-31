@@ -1,3 +1,4 @@
+
 public class Campos {
     
     public char[] name;
@@ -102,4 +103,3 @@ public class Campos {
     }
 
 }
-

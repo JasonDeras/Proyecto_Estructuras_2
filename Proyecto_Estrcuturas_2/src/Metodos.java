@@ -21,6 +21,24 @@ import javax.swing.JOptionPane;
 //import org.apache.poi.xssf.usermodel.XSSFSheet;
 //import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 //import org.apache.poi.ss.usermodel.Cell;
+import java.util.List;
+import javax.swing.JTable;
+import javax.swing.table.TableModel;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public class Metodos {
 
@@ -190,9 +208,9 @@ public class Metodos {
             metadata.setTipos(types);
             metadata.setNombre(campos.toString());
 
-            JOptionPane.showMessageDialog(null, "Se agrego el campo a la tabla.");
+            JOptionPane.showMessageDialog(null, "Success! Check Table.");
         } else {
-            JOptionPane.showMessageDialog(null, "Campo no ingresado, imposible realizar accion.");
+            JOptionPane.showMessageDialog(null, "Registro Ingresado, imposible realizar accion.");
         }
 
     }

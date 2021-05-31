@@ -1,4 +1,13 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.RandomAccessFile;
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class Metadata implements Serializable {
@@ -9,10 +18,19 @@ public class Metadata implements Serializable {
     private ArrayList tipos;
     private int numregistros = 0;
     private long Campos_en_Archivo;
+    BTree ArbolB;
     private int sizeMeta;
 
-    Metadata() {
-        
+    public BTree getArbolB() {
+        return ArbolB;
+    }
+
+    public void setArbolB(BTree ArbolB) {
+        this.ArbolB = ArbolB;
+    }
+
+    public Metadata() {
+       ArbolB = new BTree();
     }
 
     public int getSizeMeta() {
