@@ -39,39 +39,53 @@ public class Main extends javax.swing.JFrame {
     }
     
     public void Cargar_Archivo() {
-        
         FileSuccess = 0;
         String direction;
 
+        //Creo un nuevo JFileChooser para que eliga donde guardar.
+        //Le digo que aparezca en el home del proyecto .. Crea un problema que la Metadata se puede guardar en cualquier sitio.
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File("./"));
         FileNameExtensionFilter data = new FileNameExtensionFilter("DAT FILE", "dat");
         fileChooser.setFileFilter(data);
         int seleccion = fileChooser.showOpenDialog(this);
-        if (seleccion == JFileChooser.APPROVE_OPTION) {
+        if (seleccion == JFileChooser.APPROVE_OPTION) { //Cuando le da guardar
+            //System.out.println(fileChooser.getCurrentDirectory().toString());
             File file = null;
+            // FileOutputStream fos = null;
+            // ObjectOutputStream ous = null;
             try {
-                if (fileChooser.getFileFilter().getDescription().equals("DAT FILE")) {
+                if (fileChooser.getFileFilter().getDescription().equals("DAT FILE")) { //Chequea si lo que quiere guardar es DAT FILE
                     direction = fileChooser.getSelectedFile().getPath() + ".dat";
                     file = fileChooser.getSelectedFile();
                     this.file = file;
                     JOptionPane.showMessageDialog(null, "Sucess!");
+                    System.out.println("Length of Loaded File: " + (file.length() - 4)); //SIZE MENOS BUFFER.
                     FileSuccess = 1;
                 } else {
                     JOptionPane.showMessageDialog(this, "Unable to Load. Use DAT FILE.");
                 }
-                
+                // fos = new FileOutputStream(file);
+                //  ous = new ObjectOutputStream(fos);
+                //  ous.flush(); //Lo oficializo
+
+                // RAfile=new RandomAccessFile(file,"rw");
             } catch (Exception e) {
+                //e.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Something Went Wrong! Contact System Administrator.");
             }
             try {
+                //ous.close();
+                // fos.close();
             } catch (Exception e) {
+                //e.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Fatal error closing files.");
             }
 
         } else {
             JOptionPane.showMessageDialog(null, "Operation aborted!");
         }
+    
     }
     
     private void BuildTable(Metadata metadata, int funcion) {
@@ -847,16 +861,14 @@ public class Main extends javax.swing.JFrame {
 
     private void jmi_Crear_CampoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Crear_CampoActionPerformed
         // TODO add your handling code here:
-        if (metadata.getNumregistros() == 0) {
             try {
                 metodos.CreateCampos(metadata);
             } catch (IOException ex) {
             } catch (ParseException ex) {
             }
             BuildTable(metadata, 0);
-        } else {
-            JOptionPane.showMessageDialog(null, "Operacion invalida.");
-        }
+        
+         
     }//GEN-LAST:event_jmi_Crear_CampoActionPerformed
 
     private void jmi_Modificar_CampoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Modificar_CampoActionPerformed
