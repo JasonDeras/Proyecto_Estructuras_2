@@ -583,6 +583,15 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        JDMODIFICAR_CAMPOS = new javax.swing.JDialog();
+        cbocampos = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        btnModificar = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
+        txtNombre = new javax.swing.JTextField();
+        txttipo_dato = new javax.swing.JTextField();
         jsp_Tabla = new javax.swing.JScrollPane();
         Table = new javax.swing.JTable();
         jmb_Principal = new javax.swing.JMenuBar();
@@ -609,6 +618,67 @@ public class Main extends javax.swing.JFrame {
         jm_Estandarizacion = new javax.swing.JMenu();
         jmi_Exportar_Excel = new javax.swing.JMenuItem();
         jmi_Exportrar_XML = new javax.swing.JMenuItem();
+
+        jLabel1.setText("Seleccione el campo");
+
+        jLabel2.setText("Nombre");
+
+        jLabel3.setText("Tipo de dato");
+
+        btnModificar.setText("Modificar");
+
+        btnSalir.setText("Salir");
+
+        javax.swing.GroupLayout JDMODIFICAR_CAMPOSLayout = new javax.swing.GroupLayout(JDMODIFICAR_CAMPOS.getContentPane());
+        JDMODIFICAR_CAMPOS.getContentPane().setLayout(JDMODIFICAR_CAMPOSLayout);
+        JDMODIFICAR_CAMPOSLayout.setHorizontalGroup(
+            JDMODIFICAR_CAMPOSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JDMODIFICAR_CAMPOSLayout.createSequentialGroup()
+                .addGroup(JDMODIFICAR_CAMPOSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(JDMODIFICAR_CAMPOSLayout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addGroup(JDMODIFICAR_CAMPOSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbocampos, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JDMODIFICAR_CAMPOSLayout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(156, 156, 156))))
+                    .addGroup(JDMODIFICAR_CAMPOSLayout.createSequentialGroup()
+                        .addGap(58, 58, 58)
+                        .addGroup(JDMODIFICAR_CAMPOSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))
+                        .addGap(78, 78, 78)
+                        .addGroup(JDMODIFICAR_CAMPOSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtNombre)
+                            .addComponent(txttipo_dato, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)))
+                    .addGroup(JDMODIFICAR_CAMPOSLayout.createSequentialGroup()
+                        .addGap(79, 79, 79)
+                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(111, 111, 111)
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+        JDMODIFICAR_CAMPOSLayout.setVerticalGroup(
+            JDMODIFICAR_CAMPOSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JDMODIFICAR_CAMPOSLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cbocampos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55)
+                .addGroup(JDMODIFICAR_CAMPOSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(82, 82, 82)
+                .addGroup(JDMODIFICAR_CAMPOSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txttipo_dato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+                .addGroup(JDMODIFICAR_CAMPOSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(106, 106, 106))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -1005,7 +1075,14 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDialog JDMODIFICAR_CAMPOS;
     private javax.swing.JTable Table;
+    private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnSalir;
+    private javax.swing.JComboBox<String> cbocampos;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jm_Archivo;
     private javax.swing.JMenu jm_Estandarizacion;
     private javax.swing.JMenu jm_Registros;
@@ -1031,6 +1108,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_modreg;
     private javax.swing.JMenuItem jmi_reindexar;
     private javax.swing.JScrollPane jsp_Tabla;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txttipo_dato;
     // End of variables declaration//GEN-END:variables
     Metadata metadata;
     int FileSuccess;
