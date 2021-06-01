@@ -592,6 +592,9 @@ public class Main extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
         txtNombre = new javax.swing.JTextField();
         txttipo_dato = new javax.swing.JTextField();
+        Listado_de_Campos = new javax.swing.JDialog();
+        Listar_Campos = new javax.swing.JScrollPane();
+        Table1 = new javax.swing.JTable();
         jsp_Tabla = new javax.swing.JScrollPane();
         Table = new javax.swing.JTable();
         jmb_Principal = new javax.swing.JMenuBar();
@@ -678,6 +681,43 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(106, 106, 106))
+        );
+
+        Table1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        Table1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Table1MouseClicked(evt);
+            }
+        });
+        Table1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                Table1PropertyChange(evt);
+            }
+        });
+        Listar_Campos.setViewportView(Table1);
+
+        javax.swing.GroupLayout Listado_de_CamposLayout = new javax.swing.GroupLayout(Listado_de_Campos.getContentPane());
+        Listado_de_Campos.getContentPane().setLayout(Listado_de_CamposLayout);
+        Listado_de_CamposLayout.setHorizontalGroup(
+            Listado_de_CamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Listado_de_CamposLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(Listar_Campos, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        Listado_de_CamposLayout.setVerticalGroup(
+            Listado_de_CamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Listado_de_CamposLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Listar_Campos, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -982,7 +1022,21 @@ public class Main extends javax.swing.JFrame {
 
     private void jmi_Listar_CamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Listar_CamposActionPerformed
         // TODO add your handling code here:
-        metodos.ListCampos(metadata);
+       Listado_de_Campos.setVisible(true);
+        Listado_de_Campos.setLocationRelativeTo(this);
+        Table1.setForeground(Color.BLACK);
+        Table1.setBackground(Color.WHITE);
+        Table1.setFont(new Font("", 1, 22));
+        Table1.setRowHeight(30);
+        Table1.putClientProperty("terminateEditOnFocusLost", true);
+        String[] cols = {"Campo", "Tipo"};
+        int cantidad= metadata.getCampos().size();
+        Object[][] data= {{metadata.getCampos().get(cantidad), metadata.getTipos().toArray()}};
+            cantidad--;
+        
+        
+        DefaultTableModel tabla = new DefaultTableModel(data, cols);
+        Table1.setModel(tabla);
     }//GEN-LAST:event_jmi_Listar_CamposActionPerformed
 
     private void jmi_Crear_RegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Crear_RegistroActionPerformed
@@ -1039,6 +1093,14 @@ public class Main extends javax.swing.JFrame {
        
     }//GEN-LAST:event_TablePropertyChange
 
+    private void Table1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Table1MouseClicked
+
+    private void Table1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_Table1PropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Table1PropertyChange
+
     /**
      * @param args the command line arguments
      */
@@ -1076,7 +1138,10 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog JDMODIFICAR_CAMPOS;
+    private javax.swing.JDialog Listado_de_Campos;
+    private javax.swing.JScrollPane Listar_Campos;
     private javax.swing.JTable Table;
+    private javax.swing.JTable Table1;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cbocampos;
