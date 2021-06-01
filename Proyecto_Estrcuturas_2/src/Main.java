@@ -1030,11 +1030,7 @@ public class Main extends javax.swing.JFrame {
         Table1.setRowHeight(30);
         Table1.putClientProperty("terminateEditOnFocusLost", true);
         String[] cols = {"Campo", "Tipo"};
-        int cantidad= metadata.getCampos().size();
-        Object[][] data= {{metadata.getCampos().get(cantidad), metadata.getTipos().toArray()}};
-            cantidad--;
-        
-        
+        Object[][] data= {{metadata.getCampos().get(1), metadata.getTipos().toArray()}};
         DefaultTableModel tabla = new DefaultTableModel(data, cols);
         Table1.setModel(tabla);
     }//GEN-LAST:event_jmi_Listar_CamposActionPerformed
