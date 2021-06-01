@@ -33,7 +33,7 @@ import org.w3c.dom.Text;
 
 
 public class Main extends javax.swing.JFrame {
-
+    int contador=0;
     public void Salvar_Archivo() {
         JOptionPane.showMessageDialog(null, "Su file se ha guardado exitosamente! ...Always On Saving!");
     }
@@ -595,6 +595,13 @@ public class Main extends javax.swing.JFrame {
         Listado_de_Campos = new javax.swing.JDialog();
         Listar_Campos = new javax.swing.JScrollPane();
         Table1 = new javax.swing.JTable();
+        JDCREAR_CAMPO = new javax.swing.JDialog();
+        btnCrear = new javax.swing.JButton();
+        btnMostrar = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtcr_nombre = new javax.swing.JTextField();
+        cbocr_tipo = new javax.swing.JComboBox<>();
         jsp_Tabla = new javax.swing.JScrollPane();
         Table = new javax.swing.JTable();
         jmb_Principal = new javax.swing.JMenuBar();
@@ -718,6 +725,66 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(Listar_Campos, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
                 .addContainerGap())
+        );
+
+        btnCrear.setText("Crear");
+        btnCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearActionPerformed(evt);
+            }
+        });
+
+        btnMostrar.setText("Mostrar");
+        btnMostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Nombre");
+
+        jLabel5.setText("Tipo");
+
+        txtcr_nombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        cbocr_tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Int", "long", "String", "Char" }));
+
+        javax.swing.GroupLayout JDCREAR_CAMPOLayout = new javax.swing.GroupLayout(JDCREAR_CAMPO.getContentPane());
+        JDCREAR_CAMPO.getContentPane().setLayout(JDCREAR_CAMPOLayout);
+        JDCREAR_CAMPOLayout.setHorizontalGroup(
+            JDCREAR_CAMPOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JDCREAR_CAMPOLayout.createSequentialGroup()
+                .addGroup(JDCREAR_CAMPOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(JDCREAR_CAMPOLayout.createSequentialGroup()
+                        .addGap(109, 109, 109)
+                        .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(81, 81, 81)
+                        .addComponent(btnMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(JDCREAR_CAMPOLayout.createSequentialGroup()
+                        .addGap(240, 240, 240)
+                        .addGroup(JDCREAR_CAMPOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))))
+                .addContainerGap(102, Short.MAX_VALUE))
+            .addComponent(txtcr_nombre)
+            .addComponent(cbocr_tipo, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        JDCREAR_CAMPOLayout.setVerticalGroup(
+            JDCREAR_CAMPOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JDCREAR_CAMPOLayout.createSequentialGroup()
+                .addGap(65, 65, 65)
+                .addComponent(jLabel4)
+                .addGap(35, 35, 35)
+                .addComponent(txtcr_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62)
+                .addComponent(jLabel5)
+                .addGap(41, 41, 41)
+                .addComponent(cbocr_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addGroup(JDCREAR_CAMPOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -971,12 +1038,10 @@ public class Main extends javax.swing.JFrame {
 
     private void jmi_Crear_CampoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Crear_CampoActionPerformed
         // TODO add your handling code here:
-            try {
-                metodos.CreateCampos(metadata);
-            } catch (IOException ex) {
-            } catch (ParseException ex) {
-            }
-            BuildTable(metadata, 0);
+        JDCREAR_CAMPO.setModal(true);
+        JDCREAR_CAMPO.pack();
+        JDCREAR_CAMPO.setLocationRelativeTo(null);
+        JDCREAR_CAMPO.setVisible(true);
         
          
     }//GEN-LAST:event_jmi_Crear_CampoActionPerformed
@@ -1129,6 +1194,26 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_Table1PropertyChange
 
+    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
+        try {
+            String nombre="", tipo="";
+            nombre = txtcr_nombre.getText();
+            tipo = cbocr_tipo.getSelectedItem().toString();
+            metodos.CreateCampos(metadata, nombre, tipo, contador);
+            contador++;
+        } catch (IOException ex) {
+        } catch (ParseException ex) {
+        }
+        txtcr_nombre.setText("");
+        cbocr_tipo.setSelectedIndex(0);
+    }//GEN-LAST:event_btnCrearActionPerformed
+
+    private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
+        // TODO add your handling code here:
+        BuildTable(metadata, 0);
+        contador=0;
+    }//GEN-LAST:event_btnMostrarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1165,17 +1250,23 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDialog JDCREAR_CAMPO;
     private javax.swing.JDialog JDMODIFICAR_CAMPOS;
     private javax.swing.JDialog Listado_de_Campos;
     private javax.swing.JScrollPane Listar_Campos;
     private javax.swing.JTable Table;
     private javax.swing.JTable Table1;
+    private javax.swing.JButton btnCrear;
     private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnMostrar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cbocampos;
+    private javax.swing.JComboBox<String> cbocr_tipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jm_Archivo;
     private javax.swing.JMenu jm_Estandarizacion;
     private javax.swing.JMenu jm_Registros;
@@ -1202,6 +1293,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_reindexar;
     private javax.swing.JScrollPane jsp_Tabla;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtcr_nombre;
     private javax.swing.JTextField txttipo_dato;
     // End of variables declaration//GEN-END:variables
     Metadata metadata;

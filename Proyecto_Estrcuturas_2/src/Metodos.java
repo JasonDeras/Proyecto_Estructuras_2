@@ -42,7 +42,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class Metodos {
-
+     ArrayList<String> campos = new ArrayList<String>();
+            ArrayList<String> types = new ArrayList<String>();
     static Scanner read = new Scanner(System.in);
 
     public Metodos() {
@@ -154,64 +155,16 @@ public class Metodos {
         }
     }
 
-    public void CreateCampos(Metadata metadata) throws IOException, ParseException {
+    public void CreateCampos(Metadata metadata, String nombre, String tipo, int contador) throws IOException, ParseException {
         if (metadata.getNumregistros() == 0) {
-            JOptionPane.showMessageDialog(null, "Para dejar de insertar Ingrese 0\nEl primer campo es PRIMARY KEY");
-            String input = "";
-
-            ArrayList<String> campos = new ArrayList<String>();
-            ArrayList<Integer> types = new ArrayList<Integer>();
-            int contador = 0;
-
-            while (input.equals("0") != true) {
-                boolean exito = false;
-                while (exito == false) {
-                    try {
-                        input = JOptionPane.showInputDialog(null, "Ingrese el nombre del Campo " + (contador + 1));
-                        if (input.equals("0") != true) {
-                        }
-                        exito = true;
-                    } catch (Exception e) {
-                        System.out.println("Error Prevented.");
-                    }
-
-                }
-
-                if (input.equals("0") != true && contador == 0) {
-
-                    campos.add(input);
-                    types.add(1);
-                    contador++;
-                } else if (input.equals("0") != true) {
-                    try {
-                        String val = JOptionPane.showInputDialog(null, "Ingrese el tipo: \n1.Int\n2.Long\n3.String\n4.Char");
-                        while (!validaNumeroEnteroPositivo_Exp(val)) {
-                            JOptionPane.showMessageDialog(null, "Debe ingresar un numero", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
-                            val = JOptionPane.showInputDialog(null, "Ingrese el tipo: \n1.Int\n2.Long\n3.String\n4.Char");
-                        }
-                        int type = Integer.parseInt(val);
-                        while (type <= 0 || type > 4) {
-                            JOptionPane.showMessageDialog(null, "Valor ingresado no valido", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
-                            type = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese el tipo: \n1.Int\n2.Long\n3.String\n4.Char"));
-                        }
-                        types.add(type);
-                        campos.add(input);
-                        contador++;
-
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, "Incorrect Value!");
-                    }
-                }
-
-            }
-
+            types.add(contador, tipo);
+            campos.add(contador, nombre);
             metadata.setCampos(campos);
             metadata.setTipos(types);
             metadata.setNombre(campos.toString());
-
-            JOptionPane.showMessageDialog(null, "Success! Check Table.");
+            JOptionPane.showMessageDialog(null, "Se agrego el campo a la tabla.");
         } else {
-            JOptionPane.showMessageDialog(null, "Registro Ingresado, imposible realizar accion.");
+            JOptionPane.showMessageDialog(null, "Campo no ingresado, imposible realizar accion.");
         }
 
     }
