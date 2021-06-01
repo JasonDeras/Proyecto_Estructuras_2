@@ -169,22 +169,6 @@ public class Metodos {
 
     }
 
-    public void ListCampos(Metadata metadata) {
-        String salida="";
-        for (int i = 0; i < metadata.getCampos().size(); i++) {
-            if((int)metadata.getTipos().get(i)== 1){
-                 salida+="Campo "+metadata.getCampos().get(i)+" = "+"entero\n";
-            }else if((int)metadata.getTipos().get(i)== 2){
-                 salida+="Campo "+metadata.getCampos().get(i)+" = "+"valores grandes\n";
-            }else if ((int)metadata.getTipos().get(i)== 3){
-                 salida+="Campo "+metadata.getCampos().get(i)+" = "+"cadena\n";
-            }else if((int)metadata.getTipos().get(i)== 4){
-                 salida+="Campo "+metadata.getCampos().get(i)+" = "+"caracter\n";
-            }
-        }
-        JOptionPane.showMessageDialog(null, "" +salida);
-    }
-
     public void ModificarCampos(Metadata metadata) {
         if (metadata.getNumregistros() == 0) {
             try {
