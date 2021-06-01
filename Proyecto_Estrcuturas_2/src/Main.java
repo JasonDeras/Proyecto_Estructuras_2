@@ -1022,17 +1022,49 @@ public class Main extends javax.swing.JFrame {
 
     private void jmi_Listar_CamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Listar_CamposActionPerformed
         // TODO add your handling code here:
-       Listado_de_Campos.setVisible(true);
+        Listado_de_Campos.setVisible(true);
         Listado_de_Campos.setLocationRelativeTo(this);
+        Listado_de_Campos.setSize(500, 500);
+        Listado_de_Campos.setTitle("Listado de Campos");
         Table1.setForeground(Color.BLACK);
         Table1.setBackground(Color.WHITE);
         Table1.setFont(new Font("", 1, 22));
         Table1.setRowHeight(30);
         Table1.putClientProperty("terminateEditOnFocusLost", true);
-        String[] cols = {"Campo", "Tipo"};
-        Object[][] data= {{metadata.getCampos().get(1), metadata.getTipos().toArray()}};
-        DefaultTableModel tabla = new DefaultTableModel(data, cols);
+        String[] cols = {"", ""};
+        DefaultTableModel tabla = new DefaultTableModel();
+        tabla.addColumn("Campo");
+        tabla.addColumn("Tipo");
+        String tipo;
+        for (int i = 0; i < metadata.getCampos().size(); i++) {
+            tabla.addRow(cols);
+        }
+        
         Table1.setModel(tabla);
+        int primero=0;
+        int segundo=0;
+        
+        for (int i = 0; i < metadata.getCampos().size(); i++) {
+            if ((int)metadata.getTipos().get(i)==1) {
+                tabla.setValueAt(metadata.getCampos().get(i), primero,segundo);
+                tabla.setValueAt("Entero", primero, segundo+1);
+                Table1.setModel(tabla);
+            }else if ((int)metadata.getTipos().get(i)==2) {
+                 tabla.setValueAt(metadata.getCampos().get(i), primero,segundo);
+                tabla.setValueAt("Long", primero, segundo+1);
+                Table1.setModel(tabla);
+            }else if ((int)metadata.getTipos().get(i)==3) {
+                 tabla.setValueAt(metadata.getCampos().get(i), primero,segundo);
+                tabla.setValueAt("String", primero, segundo+1);
+                Table1.setModel(tabla);
+            }else if ((int)metadata.getTipos().get(i)==4) {
+                 tabla.setValueAt(metadata.getCampos().get(i), primero,segundo);
+                tabla.setValueAt("Char", primero, segundo+1);
+                Table1.setModel(tabla);
+            }
+           primero++;
+        }
+        
     }//GEN-LAST:event_jmi_Listar_CamposActionPerformed
 
     private void jmi_Crear_RegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Crear_RegistroActionPerformed
