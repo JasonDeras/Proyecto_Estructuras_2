@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 //import org.apache.poi.ss.usermodel.Cell;
 import java.util.List;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -350,5 +351,44 @@ public class Metodos {
 
         return texto.matches("[a-zA-Z]*");
     }
+    
+    
+    public void IntroducirRegistros(JTable tabla) {
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        String registro;
+        ArrayList<String> datos = new ArrayList<String>();
+        for (int i = 0; i < modelo.getColumnCount(); i++) {
+            registro = JOptionPane.showInputDialog(null, "Ingrese " + modelo.getColumnName(i));
+            datos.add(registro);
 
+        }
+        modelo.addRow(datos.toArray());
+        tabla.setModel(modelo);
+
+    }
+
+    public void BorrarRegistros(JTable tabla) {
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        String registro;
+        int row=0;
+        boolean confirm = false;
+        registro = JOptionPane.showInputDialog(null, "Ingrese el criterio definido que quiera eliminar");
+     
+        for (int i = 0; i < modelo.getColumnCount(); i++) {
+            for (int k  = 0; k < modelo.getRowCount(); k++) {
+                if(modelo.getValueAt(k, i).equals(registro)){
+                    confirm = true;
+                    row = k;
+                }
+            }
+        }
+        
+        if(confirm){
+           modelo.removeRow(row);
+            tabla.setModel(modelo);
+        }else{
+            JOptionPane.showMessageDialog(null, "No existe ese criterio");
+        }
+
+    }
 }
