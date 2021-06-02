@@ -24,8 +24,8 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-//import static org.apache.poi.hssf.usermodel.HeaderFooter.file;
-//import org.apache.xmlbeans.StringEnumAbstractBase.Table;
+import static org.apache.poi.hssf.usermodel.HeaderFooter.file;
+import org.apache.xmlbeans.StringEnumAbstractBase.Table;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -521,7 +521,7 @@ public class Main extends javax.swing.JFrame {
         }
     }
     
-    /*public static void exportXML(ArrayList Campos, ArrayList Regs, String Direccion) {
+    public static void exportXML(ArrayList Campos, ArrayList Regs, String Direccion) {
         
          Document document = null;
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -561,7 +561,7 @@ public class Main extends javax.swing.JFrame {
         } catch (Exception e) {
 
         }
-    }*/
+    }
     
     public Main() {
         initComponents();
