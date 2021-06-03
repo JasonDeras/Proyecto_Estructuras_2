@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,10 +16,10 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
 import javax.swing.JOptionPane;
-//import org.apache.poi.ss.usermodel.Row;
-//import org.apache.poi.xssf.usermodel.XSSFSheet;
-//import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-//import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -28,7 +27,6 @@ import javax.swing.table.TableModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -232,7 +230,7 @@ public class Metodos {
 
     }
 
-   /* public void ExportToExcel(Metadata metadata, String name, JTable table) {
+   public void ExportToExcel(Metadata metadata, String name, JTable table) {
         //Blank workbook
         XSSFWorkbook workbook = new XSSFWorkbook();
 
@@ -278,7 +276,7 @@ public class Metodos {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
     public static boolean validaNumeroEnteroPositivo_Exp(String texto) {
         return texto.matches("^[0-9]+([\\.,][0-9]+)?$");

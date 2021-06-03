@@ -1025,7 +1025,7 @@ public class Main extends javax.swing.JFrame {
             try {
                 CargarMetadatos();
                 BuildTable(metadata, 0);
-                //LeerDatosRegistro();
+                LeerDatosRegistro();
             } catch (ClassNotFoundException ex) {
             }
         }
@@ -1134,7 +1134,52 @@ public class Main extends javax.swing.JFrame {
 
     private void jmi_Crear_RegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Crear_RegistroActionPerformed
         // TODO add your handling code here:
-        
+        System.out.println("NUM REGISTROS: " + metadata.getNumregistros());
+        if (metadata != null) {
+            if (metadata.getCampos() != null) {
+                if (metadata.getCampos().size() > 0) {
+                    if (file == null) {
+                        while (FileSuccess == 0) {
+                            Crear_Registro();
+                        }
+
+                        try {
+                            Escribir_Metadatos();
+                        } catch (IOException ex) {
+                            // ex.printStackTrace();
+                            System.out.println("Otro de los mil errores escribiendo metadatas.");
+                        }
+                        Crear_Registro();
+                    } else {
+                        if (metadata.getNumregistros() < 1) {
+                            try {
+                                file.delete();
+                                file.createNewFile();
+                                System.out.println("Forcing deletion and recreation of the file.");
+                            } catch (Exception sdj) {
+                                System.out.println("Error en borrar.");
+                            }
+
+                            Crear_Registro(); //ex.printStackTrace();
+                            metadata.addnumregistros();
+                            Crear_Registro();
+                        } else {
+                            metadata.addnumregistros();
+                            Crear_Registro();
+                        }
+
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "No hay campos creados! XTT 428");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "No hay campos creados! XTT 431");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay campos creados! XTT 435");
+        }
     }//GEN-LAST:event_jmi_Crear_RegistroActionPerformed
 
     private void jmi_Borrar_RegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Borrar_RegistroActionPerformed
@@ -1168,7 +1213,17 @@ public class Main extends javax.swing.JFrame {
 
     private void jmi_Exportar_ExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Exportar_ExcelActionPerformed
         // TODO add your handling code here:
-       
+       try {
+            if (file == null || metadata == null || metadata.getCampos() == null || metadata.getNumregistros() == 0) {
+                JOptionPane.showMessageDialog(null, "No hay informacion cargada");
+            } else {
+                String name = JOptionPane.showInputDialog(null, "Ingrese el nombre del exporte: ");
+               metodos.ExportToExcel(metadata, name, Table);
+            }
+
+        } catch (Exception e) {
+        }
+
     }//GEN-LAST:event_jmi_Exportar_ExcelActionPerformed
 
     private void jmi_Exportrar_XMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Exportrar_XMLActionPerformed
