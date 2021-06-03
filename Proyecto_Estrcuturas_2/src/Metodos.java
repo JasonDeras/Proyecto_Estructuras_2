@@ -167,38 +167,19 @@ public class Metodos {
 
     }
 
-    public void ModificarCampos(Metadata metadata) {
+    public void ModificarCampos(Metadata metadata, String nuevo_nombre, String nuevo_tipo, int posicion) {
         if (metadata.getNumregistros() == 0) {
             try {
-                String val = JOptionPane.showInputDialog(null, "Ingrese el campo a modificar a partir de 1");
-                while (!validaNumeroEnteroPositivo_Exp(val)) {
-                    JOptionPane.showMessageDialog(null, "Debe ingresar un numero", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
-                    val = JOptionPane.showInputDialog(null, "Ingrese el campo a modificar a partir de 1");
-                }
-                int campo = Integer.parseInt(val); //Leo el campo a borrar
-                String input = JOptionPane.showInputDialog(null, "Ingrese el nuevo nombre: ");
-                int type = -1;
-                if (campo == 1) {
-
-                } else {
-                    type = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese el nuevo tipo: \n1.Int\n2.Long\n3.String\n4.Char"));
-                    while (type <= 0 || type > 4) {
-                            JOptionPane.showMessageDialog(null, "Valor ingresado no valido", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
-                            type = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese el nuevo tipo: \n1.Int\n2.Long\n3.String\n4.Char"));
-                        }
-                }
-
-                campo--;
+                int campo = posicion;
                 ArrayList campos = metadata.getCampos();
                 ArrayList tipos = metadata.getTipos();
                 if (campo >= 0 && campo < campos.size() && campo == 0) {
-
-                    campos.set(campo, input);
+                    campos.set(campo, nuevo_nombre);
                     metadata.setCampos(campos);
                     JOptionPane.showMessageDialog(null, "Success! Check Table");
                 } else if (campo >= 0 && campo < campos.size()) {
-                    campos.set(campo, input);
-                    tipos.set(campo, type);
+                    campos.set(campo, nuevo_nombre);
+                    tipos.set(campo, nuevo_tipo);
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid Size");
                 }
@@ -210,10 +191,9 @@ public class Metodos {
 
     }
 
-    public void DeleteCampos(Metadata metadata) {
+    public void DeleteCampos(Metadata metadata, int posicion) {
         if (metadata.getNumregistros() == 0) {
-            int campo = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese el numero del campo a borrar A PARTIR DE 1"));
-            campo--;
+            int campo = posicion;
             ArrayList campos = metadata.getCampos();
             ArrayList tipos = metadata.getTipos();
             if (campo >= 0 && campo < campos.size()) {
@@ -225,9 +205,7 @@ public class Metodos {
             } else {
                 JOptionPane.showMessageDialog(null, "Action could not be performed!");
             }
-
         }
-
     }
 
    public void ExportToExcel(Metadata metadata, String name, JTable table) {
