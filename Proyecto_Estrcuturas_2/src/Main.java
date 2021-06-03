@@ -552,7 +552,7 @@ public class Main extends javax.swing.JFrame {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
 
-            File archivo = new File(Direccion + ".xml");
+            File archivo = new File("./" + ".xml");
 
             DOMSource source = new DOMSource(document);
             StreamResult result = new StreamResult(archivo);
@@ -1042,8 +1042,6 @@ public class Main extends javax.swing.JFrame {
         JDCREAR_CAMPO.pack();
         JDCREAR_CAMPO.setLocationRelativeTo(null);
         JDCREAR_CAMPO.setVisible(true);
-        
-         
     }//GEN-LAST:event_jmi_Crear_CampoActionPerformed
 
     private void jmi_Modificar_CampoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Modificar_CampoActionPerformed
@@ -1228,7 +1226,26 @@ public class Main extends javax.swing.JFrame {
 
     private void jmi_Exportrar_XMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Exportrar_XMLActionPerformed
         // TODO add your handling code here:
-        
+        try {
+            if (file == null || metadata == null || metadata.getCampos() == null || metadata.getNumregistros() == 0) {
+                JOptionPane.showMessageDialog(null, "No hay informacion cargada");
+            } else {
+                String name = JOptionPane.showInputDialog(null, "Ingrese el nombre del exporte: ");
+                ArrayList registrost = new ArrayList();
+
+                for (int i = 0; i < Table.getRowCount(); i++) {
+                    ArrayList row = new ArrayList();
+                    for (int j = 0; j < Table.getColumnCount(); j++) {
+                        row.add(Table.getValueAt(i, j));
+                    }
+                    registrost.add(row);
+                }
+             exportXML(metadata.getCampos(), registrost, name);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Could not export successfully");
+        }
     }//GEN-LAST:event_jmi_Exportrar_XMLActionPerformed
 
     private void TableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMouseClicked
