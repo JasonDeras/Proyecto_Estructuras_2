@@ -1175,7 +1175,6 @@ public class Main extends javax.swing.JFrame {
 
     private void jmi_Crear_RegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Crear_RegistroActionPerformed
         // TODO add your handling code here:
-        System.out.println("NUM REGISTROS: " + metadata.getNumregistros());
         if (metadata != null) {
             if (metadata.getCampos() != null) {
                 if (metadata.getCampos().size() > 0) {
@@ -1187,17 +1186,13 @@ public class Main extends javax.swing.JFrame {
                         try {
                             Escribir_Metadatos();
                         } catch (IOException ex) {
-                            // ex.printStackTrace();
-                            System.out.println("Otro de los mil errores escribiendo metadatas.");
                         }
                         Crear_Registro();
                     } else if (metadata.getNumregistros() < 1) {
                         try {
                             file.delete();
                             file.createNewFile();
-                            System.out.println("Forcing deletion and recreation of the file.");
                         } catch (Exception sdj) {
-                            System.out.println("Error en borrar.");
                         }
 
                         Crear_Registro(); //ex.printStackTrace();
@@ -1222,12 +1217,56 @@ public class Main extends javax.swing.JFrame {
 
     private void jmi_Borrar_RegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Borrar_RegistroActionPerformed
         // TODO add your handling code here:
+         if (mode == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione un Registro para borrar.");
+        } else {
+            try {
+                //System.out.println("Se eliminara el registro: " + rowRemoval);
+                ArrayList Export = new ArrayList();
+                for (int i = 0; i < metadata.getCampos().size(); i++) {
+                    Export.add(Table.getValueAt(rowRemoval, i));
+                }
+                mode = -1;
+                Eliminar_Dato_Archivo(Export);
+                metadata.subtractnumregistros();
+                //System.out.println("Metadata Registry after deleting: " + metadata.getNumregistros());
+                TableModel modelo = Table.getModel();
+                DefaultTableModel model = (DefaultTableModel) modelo;
+                model.removeRow(rowRemoval);
+                Table.setModel(modelo);
+            } catch (Exception e) {
+                System.out.println("Problem deleting file");
+            }
+
+        }
 
     }//GEN-LAST:event_jmi_Borrar_RegistroActionPerformed
 
     private void jmi_Buscar_RegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Buscar_RegistroActionPerformed
         // TODO add your handling code here:
+           
+        try {
+            int Primarykey = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese el PrimaryKey del registro a buscar."));
+            Registro temporal = new Registro(Primarykey);
+            BNode x;
+            //System.out.println("------------");
+            if ((x = metadata.getArbolB().search(temporal)) == null) {
+                JOptionPane.showMessageDialog(null, "No se pudo encontrar");
+                // System.out.println("------------");
+            } else {
 
+                Data datos = Buscar_Dato_Archivo(temporal);
+                String info = "Registro: ";
+                for (int i = 0; i < datos.datos.size(); i++) {
+                    info += datos.datos.get(i) + " - ";
+                }
+                JOptionPane.showMessageDialog(this, info);
+
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Operation aborted.");
+            //e.printStackTrace();
+        }
     }//GEN-LAST:event_jmi_Buscar_RegistroActionPerformed
 
     private void jmi_modregActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_modregActionPerformed
