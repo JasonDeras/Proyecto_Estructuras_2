@@ -34,6 +34,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
 public class Main extends javax.swing.JFrame {
+
     int contador = 0;
     ArrayList<Campo> listcampos = new ArrayList();
 
@@ -1082,6 +1083,11 @@ public class Main extends javax.swing.JFrame {
                 CargarMetadatos();
                 BuildTable(metadata, 0);
                 LeerDatosRegistro();
+                for (int i = 0; i < metadata.getCampos().size(); i++) {
+                    Campo c = new Campo(metadata.getCampos().get(i).toString(), metadata.getTipos().get(i).toString());
+                    listcampos.add(c);
+                }
+                contador = listcampos.size();
             } catch (ClassNotFoundException ex) {
             }
         }
@@ -1217,7 +1223,7 @@ public class Main extends javax.swing.JFrame {
 
     private void jmi_Borrar_RegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Borrar_RegistroActionPerformed
         // TODO add your handling code here:
-         if (mode == -1) {
+        if (mode == -1) {
             JOptionPane.showMessageDialog(null, "Seleccione un Registro para borrar.");
         } else {
             try {
@@ -1244,7 +1250,7 @@ public class Main extends javax.swing.JFrame {
 
     private void jmi_Buscar_RegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Buscar_RegistroActionPerformed
         // TODO add your handling code here:
-           
+
         try {
             int Primarykey = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese el PrimaryKey del registro a buscar."));
             Registro temporal = new Registro(Primarykey);
@@ -1347,11 +1353,11 @@ public class Main extends javax.swing.JFrame {
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         try {
-            String nombre="", tipo="";
+            String nombre = "", tipo = "";
             nombre = txtcr_nombre.getText();
             tipo = cbocr_tipo.getSelectedItem().toString();
             Campo c = new Campo(nombre, tipo);
-            listcampos.add(c);            
+            listcampos.add(c);
             metodos.CreateCampos(metadata, nombre, tipo, contador);
             contador++;
         } catch (IOException ex) {
@@ -1364,7 +1370,6 @@ public class Main extends javax.swing.JFrame {
     private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
         // TODO add your handling code here:
         BuildTable(metadata, 0);
-        contador = 0;
     }//GEN-LAST:event_btnMostrarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -1380,10 +1385,8 @@ public class Main extends javax.swing.JFrame {
                     BuildTable(metadata, 0);
                     listcampos.remove(posicion);
                 }
-
             } catch (Exception e) {
             }
-
         } else {
             JOptionPane.showMessageDialog(null, "Operacion Invalida");
         }
@@ -1411,8 +1414,8 @@ public class Main extends javax.swing.JFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
-        String nuevo_nombre="", nuevo_tipo="";
-        int posicion=0;
+        String nuevo_nombre = "", nuevo_tipo = "";
+        int posicion = 0;
         nuevo_nombre = txtnuevo_Nombre.getText();
         nuevo_tipo = cbonuevo_tipo.getSelectedItem().toString();
         posicion = cbocampos.getSelectedIndex();

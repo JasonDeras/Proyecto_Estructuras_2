@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -40,8 +41,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class Metodos {
-     ArrayList<String> campos = new ArrayList<String>();
-            ArrayList<String> types = new ArrayList<String>();
+
+    ArrayList<String> campos = new ArrayList<String>();
+    ArrayList<String> types = new ArrayList<String>();
     static Scanner read = new Scanner(System.in);
 
     public Metodos() {
@@ -197,18 +199,22 @@ public class Metodos {
             ArrayList campos = metadata.getCampos();
             ArrayList tipos = metadata.getTipos();
             if (campo >= 0 && campo < campos.size()) {
-                campos.remove(campo);
-                tipos.remove(campo);
-                metadata.setCampos(campos);
-                metadata.setTipos(tipos);
-                JOptionPane.showMessageDialog(null, "Success Check table");
+                if (campo == 1) {
+                    JOptionPane.showMessageDialog(null, "No se puede borrar la llave primaria!");
+                } else {
+                    campos.remove(campo);
+                    tipos.remove(campo);
+                    metadata.setCampos(campos);
+                    metadata.setTipos(tipos);
+                    JOptionPane.showMessageDialog(null, "Success Check table");
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Action could not be performed!");
             }
         }
     }
 
-   public void ExportToExcel(Metadata metadata, String name, JTable table) {
+    public void ExportToExcel(Metadata metadata, String name, JTable table) {
         //Blank workbook
         XSSFWorkbook workbook = new XSSFWorkbook();
 
@@ -264,8 +270,7 @@ public class Metodos {
 
         return texto.matches("[a-zA-Z]*");
     }
-    
-    
+
     public void IntroducirRegistros(JTable tabla) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
         String registro;
@@ -283,23 +288,23 @@ public class Metodos {
     public void BorrarRegistros(JTable tabla) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
         String registro;
-        int row=0;
+        int row = 0;
         boolean confirm = false;
         registro = JOptionPane.showInputDialog(null, "Ingrese el criterio definido que quiera eliminar");
-     
+
         for (int i = 0; i < modelo.getColumnCount(); i++) {
-            for (int k  = 0; k < modelo.getRowCount(); k++) {
-                if(modelo.getValueAt(k, i).equals(registro)){
+            for (int k = 0; k < modelo.getRowCount(); k++) {
+                if (modelo.getValueAt(k, i).equals(registro)) {
                     confirm = true;
                     row = k;
                 }
             }
         }
-        
-        if(confirm){
-           modelo.removeRow(row);
+
+        if (confirm) {
+            modelo.removeRow(row);
             tabla.setModel(modelo);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "No existe ese criterio");
         }
 
