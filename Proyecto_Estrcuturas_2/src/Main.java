@@ -257,25 +257,20 @@ public class Main extends javax.swing.JFrame {
 
         Object[] insertarray = new Object[metadata.getCampos().size()];
         for (int i = 0; i < metadata.getCampos().size(); i++) {
-            boolean exito = false;
-            while (exito == false) {
-                try {
                     String temp = JOptionPane.showInputDialog(null, "Ingrese: " + metadata.getCampos().get(i).toString() + "\n\nTipo: 1.Int\n2.Long\n3.String\n4.Char\n\n Tipo:  " + metadata.getTipos().get(i).toString());
-                    if (Integer.parseInt(metadata.getTipos().get(i).toString()) == 1) {
+                   
+                    if (metadata.getTipos().get(i).toString() == "Int") {
                         insertarray[i] = Integer.parseInt(temp);
-                    } else if (Integer.parseInt(metadata.getTipos().get(i).toString()) == 2) {
+                        
+                    } else if (metadata.getTipos().get(i).toString() == "long") {
                         insertarray[i] = Long.parseLong(temp);
-                    } else if (Integer.parseInt(metadata.getTipos().get(i).toString()) == 3) {
+                    } else if (metadata.getTipos().get(i).toString() == "String") {
                         insertarray[i] = temp;
-                    } else if (Integer.parseInt(metadata.getTipos().get(i).toString()) == 4) {
+                    } else if (metadata.getTipos().get(i).toString() == "Char") {
                         insertarray[i] = temp.charAt(0);
                     }
-                    exito = true;
-                } catch (Exception e) {
-                }
-            }
-
         }
+        
         ArrayList export2 = new ArrayList();
 
         for (int i = 0; i < insertarray.length; i++) {
@@ -1183,10 +1178,12 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (metadata != null) {
             if (metadata.getCampos() != null) {
+                System.out.println(metadata.getCampos());
                 if (metadata.getCampos().size() > 0) {
                     if (file == null) {
                         while (FileSuccess == 0) {
-                            Crear_Registro();
+                            Crear_Archivo();
+
                         }
 
                         try {
@@ -1194,19 +1191,26 @@ public class Main extends javax.swing.JFrame {
                         } catch (IOException ex) {
                         }
                         Crear_Registro();
-                    } else if (metadata.getNumregistros() < 1) {
-                        try {
-                            file.delete();
-                            file.createNewFile();
-                        } catch (Exception sdj) {
+                    } else {
+                        if (metadata.getNumregistros() < 1) {
+                            try {
+                                file.delete();
+                                file.createNewFile();
+                            } catch (Exception sdj) {
+                            }
+
+                            try {
+                                Escribir_Metadatos();
+                            } catch (IOException ex) {
+                                //ex.printStackTrace();
+                            }
+                            metadata.addnumregistros();
+                            Crear_Registro();
+                        } else {
+                            metadata.addnumregistros();
+                            Crear_Registro();
                         }
 
-                        Crear_Registro(); //ex.printStackTrace();
-                        metadata.addnumregistros();
-                        Crear_Registro();
-                    } else {
-                        metadata.addnumregistros();
-                        Crear_Registro();
                     }
 
                 } else {
@@ -1219,6 +1223,7 @@ public class Main extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "No hay campos creados! XTT 435");
         }
+    
     }//GEN-LAST:event_jmi_Crear_RegistroActionPerformed
 
     private void jmi_Borrar_RegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Borrar_RegistroActionPerformed
@@ -1227,25 +1232,22 @@ public class Main extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Seleccione un Registro para borrar.");
         } else {
             try {
-                //System.out.println("Se eliminara el registro: " + rowRemoval);
-                ArrayList Export = new ArrayList();
+                ArrayList export = new ArrayList();
                 for (int i = 0; i < metadata.getCampos().size(); i++) {
-                    Export.add(Table.getValueAt(rowRemoval, i));
+                    export.add(Table.getValueAt(rowRemoval, i));
                 }
                 mode = -1;
-                Eliminar_Dato_Archivo(Export);
+                
+                Eliminar_Dato_Archivo(export);
                 metadata.subtractnumregistros();
-                //System.out.println("Metadata Registry after deleting: " + metadata.getNumregistros());
+                
                 TableModel modelo = Table.getModel();
                 DefaultTableModel model = (DefaultTableModel) modelo;
                 model.removeRow(rowRemoval);
                 Table.setModel(modelo);
             } catch (Exception e) {
-                System.out.println("Problem deleting file");
             }
-
         }
-
     }//GEN-LAST:event_jmi_Borrar_RegistroActionPerformed
 
     private void jmi_Buscar_RegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Buscar_RegistroActionPerformed
@@ -1335,7 +1337,8 @@ public class Main extends javax.swing.JFrame {
 
     private void TableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMouseClicked
         // TODO add your handling code here:
-
+         rowRemoval = Table.getSelectedRow();
+        mode = 0;
     }//GEN-LAST:event_TableMouseClicked
 
     private void TablePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_TablePropertyChange
