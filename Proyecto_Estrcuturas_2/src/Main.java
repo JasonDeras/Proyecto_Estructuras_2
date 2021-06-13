@@ -257,7 +257,7 @@ public class Main extends javax.swing.JFrame {
 
         Object[] insertarray = new Object[metadata.getCampos().size()];
         for (int i = 0; i < metadata.getCampos().size(); i++) {
-                    String temp = JOptionPane.showInputDialog(null, "Ingrese: " + metadata.getCampos().get(i).toString() + "\n\nTipo: 1.Int\n2.Long\n3.String\n4.Char\n\n Tipo:  " + metadata.getTipos().get(i).toString());
+                    String temp = JOptionPane.showInputDialog(null, "Ingrese: " + metadata.getCampos().get(i).toString() + "\n Tipo:  " + metadata.getTipos().get(i).toString());
                    
                     if (metadata.getTipos().get(i).toString() == "Int") {
                         insertarray[i] = Integer.parseInt(temp);
@@ -732,8 +732,8 @@ public class Main extends javax.swing.JFrame {
             Listado_de_CamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Listado_de_CamposLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(Listar_Campos, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(Listar_Campos, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
+                .addGap(117, 117, 117))
         );
         Listado_de_CamposLayout.setVerticalGroup(
             Listado_de_CamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1129,6 +1129,7 @@ public class Main extends javax.swing.JFrame {
 
     private void jmi_Listar_CamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Listar_CamposActionPerformed
         // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "El primer campo es campo llave");
         Listado_de_Campos.setVisible(true);
         Listado_de_Campos.setLocationRelativeTo(this);
         Listado_de_Campos.setSize(500, 500);
@@ -1152,19 +1153,19 @@ public class Main extends javax.swing.JFrame {
         int segundo = 0;
 
         for (int i = 0; i < metadata.getCampos().size(); i++) {
-            if ((int) metadata.getTipos().get(i) == 1) {
-                tabla.setValueAt(metadata.getCampos().get(i), primero, segundo);
+            if (metadata.getTipos().get(i).toString().equals("Int")) {
+                tabla.setValueAt(metadata.getCampos().get(i).toString(), primero, segundo);
                 tabla.setValueAt("Entero", primero, segundo + 1);
                 Table1.setModel(tabla);
-            } else if ((int) metadata.getTipos().get(i) == 2) {
+            } else if (metadata.getTipos().get(i).toString().equals("long")) {
                 tabla.setValueAt(metadata.getCampos().get(i), primero, segundo);
                 tabla.setValueAt("Long", primero, segundo + 1);
                 Table1.setModel(tabla);
-            } else if ((int) metadata.getTipos().get(i) == 3) {
+            } else if (metadata.getTipos().get(i).toString().equals("String")) {
                 tabla.setValueAt(metadata.getCampos().get(i), primero, segundo);
                 tabla.setValueAt("String", primero, segundo + 1);
                 Table1.setModel(tabla);
-            } else if ((int) metadata.getTipos().get(i) == 4) {
+            } else if (metadata.getTipos().get(i).toString().equals("Char")) {
                 tabla.setValueAt(metadata.getCampos().get(i), primero, segundo);
                 tabla.setValueAt("Char", primero, segundo + 1);
                 Table1.setModel(tabla);
@@ -1178,7 +1179,6 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (metadata != null) {
             if (metadata.getCampos() != null) {
-                System.out.println(metadata.getCampos());
                 if (metadata.getCampos().size() > 0) {
                     if (file == null) {
                         while (FileSuccess == 0) {
