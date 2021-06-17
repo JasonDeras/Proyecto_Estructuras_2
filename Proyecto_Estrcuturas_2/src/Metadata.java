@@ -16,6 +16,9 @@ public class Metadata implements Serializable {
     private String nombre;
     private ArrayList campos;
     private ArrayList tipos;
+    private String llave_secundaria;
+
+    
     private int numregistros = 0;
     private long Campos_en_Archivo;
     BTree ArbolB;
@@ -92,6 +95,15 @@ public class Metadata implements Serializable {
     public void setCampos_en_Archivo(long Campos_en_Archivo) {
         this.Campos_en_Archivo = Campos_en_Archivo;
     }
+
+    public String getLlave_secundaria() {
+        return llave_secundaria;
+    }
+
+    public void setLlave_secundaria(String llave_secundaria) {
+        this.llave_secundaria = llave_secundaria;
+    }
+    
     
     @Override
     public String toString() {

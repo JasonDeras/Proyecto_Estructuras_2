@@ -44,6 +44,8 @@ public class Metodos {
 
     ArrayList<String> campos = new ArrayList<String>();
     ArrayList<String> types = new ArrayList<String>();
+    ArrayList<String> key_s = new ArrayList<String>();
+
     static Scanner read = new Scanner(System.in);
 
     public Metodos() {
@@ -155,12 +157,13 @@ public class Metodos {
         }
     }
 
-    public void CreateCampos(Metadata metadata, String nombre, String tipo, int contador) throws IOException, ParseException {
+    public void CreateCampos(Metadata metadata, String nombre, String tipo, int contador, String keyS) throws IOException, ParseException {
         if (metadata.getNumregistros() == 0) {
             types.add(contador, tipo);
             campos.add(contador, nombre);
             metadata.setCampos(campos);
             metadata.setTipos(types);
+            metadata.setLlave_secundaria(keyS);
             metadata.setNombre(campos.toString());
             JOptionPane.showMessageDialog(null, "Se agrego el campo a la tabla.");
         } else {

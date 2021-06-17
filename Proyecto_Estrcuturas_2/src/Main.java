@@ -36,8 +36,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
 public class Main extends javax.swing.JFrame {
+
     boolean validar = false;
-    int contador = 0;
+    int contador = 0, cantidad = 0;
     ArrayList<Campo> listcampos = new ArrayList();
 
     public void Salvar_Archivo() {
@@ -259,19 +260,19 @@ public class Main extends javax.swing.JFrame {
 
         Object[] insertarray = new Object[metadata.getCampos().size()];
         for (int i = 0; i < metadata.getCampos().size(); i++) {
-                    String temp = JOptionPane.showInputDialog(null, "Ingrese: " + metadata.getCampos().get(i).toString() + "\n Tipo:  " + metadata.getTipos().get(i).toString());
-                    if (metadata.getTipos().get(i).toString().equals("Int")) {
-                        insertarray[i] = Integer.parseInt(temp);
-                        
-                    } else if (metadata.getTipos().get(i).toString().equals("long")) {
-                        insertarray[i] = Long.parseLong(temp);
-                    } else if (metadata.getTipos().get(i).toString().equals("String")) {
-                        insertarray[i] = temp;
-                    } else if (metadata.getTipos().get(i).toString().equals("Char")) {
-                        insertarray[i] = temp.charAt(0);
-                    }
+            String temp = JOptionPane.showInputDialog(null, "Ingrese: " + metadata.getCampos().get(i).toString() + "\n Tipo:  " + metadata.getTipos().get(i).toString());
+            if (metadata.getTipos().get(i).toString().equals("Int")) {
+                insertarray[i] = Integer.parseInt(temp);
+
+            } else if (metadata.getTipos().get(i).toString().equals("long")) {
+                insertarray[i] = Long.parseLong(temp);
+            } else if (metadata.getTipos().get(i).toString().equals("String")) {
+                insertarray[i] = temp;
+            } else if (metadata.getTipos().get(i).toString().equals("Char")) {
+                insertarray[i] = temp.charAt(0);
+            }
         }
-        
+
         ArrayList export2 = new ArrayList();
 
         for (int i = 0; i < insertarray.length; i++) {
@@ -596,6 +597,8 @@ public class Main extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         txtcr_nombre = new javax.swing.JTextField();
         cbocr_tipo = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
+        cbollave_s = new javax.swing.JComboBox<>();
         JDMODIFICAR_CAMPOS = new javax.swing.JDialog();
         cbocampos = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
@@ -711,36 +714,50 @@ public class Main extends javax.swing.JFrame {
 
         cbocr_tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Int", "long", "String", "Char" }));
 
+        jLabel10.setText("Desea que sea llave secundaria?");
+
+        cbollave_s.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "SI", " " }));
+
         javax.swing.GroupLayout JDCREAR_CAMPOLayout = new javax.swing.GroupLayout(JDCREAR_CAMPO.getContentPane());
         JDCREAR_CAMPO.getContentPane().setLayout(JDCREAR_CAMPOLayout);
         JDCREAR_CAMPOLayout.setHorizontalGroup(
             JDCREAR_CAMPOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(txtcr_nombre)
             .addComponent(cbocr_tipo, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(cbollave_s, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(JDCREAR_CAMPOLayout.createSequentialGroup()
                 .addGroup(JDCREAR_CAMPOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(JDCREAR_CAMPOLayout.createSequentialGroup()
                         .addGap(240, 240, 240)
-                        .addGroup(JDCREAR_CAMPOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(JDCREAR_CAMPOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel5)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JDCREAR_CAMPOLayout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(3, 3, 3))))
                     .addGroup(JDCREAR_CAMPOLayout.createSequentialGroup()
                         .addGap(200, 200, 200)
-                        .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(210, Short.MAX_VALUE))
+                        .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(JDCREAR_CAMPOLayout.createSequentialGroup()
+                        .addGap(167, 167, 167)
+                        .addComponent(jLabel10)))
+                .addContainerGap(184, Short.MAX_VALUE))
         );
         JDCREAR_CAMPOLayout.setVerticalGroup(
             JDCREAR_CAMPOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JDCREAR_CAMPOLayout.createSequentialGroup()
                 .addGap(65, 65, 65)
                 .addComponent(jLabel4)
-                .addGap(35, 35, 35)
+                .addGap(18, 18, 18)
                 .addComponent(txtcr_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62)
+                .addGap(27, 27, 27)
+                .addComponent(jLabel10)
+                .addGap(18, 18, 18)
+                .addComponent(cbollave_s, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
                 .addComponent(jLabel5)
-                .addGap(41, 41, 41)
+                .addGap(18, 18, 18)
                 .addComponent(cbocr_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
                 .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55))
         );
@@ -1254,26 +1271,23 @@ public class Main extends javax.swing.JFrame {
                         } catch (IOException ex) {
                         }
                         Crear_Registro();
-                    } else {
-                        if (metadata.getNumregistros() < 1) {
-                            try {
-                                file.delete();
-                                file.createNewFile();
-                            } catch (Exception sdj) {
-                            }
-
-                            try {
-                                Escribir_Metadatos();
-                            } catch (IOException ex) {
-                                //ex.printStackTrace();
-                            }
-                            metadata.addnumregistros();
-                            Crear_Registro();
-                        } else {
-                            metadata.addnumregistros();
-                            Crear_Registro();
+                    } else if (metadata.getNumregistros() < 1) {
+                        try {
+                            file.delete();
+                            file.createNewFile();
+                        } catch (Exception sdj) {
                         }
 
+                        try {
+                            Escribir_Metadatos();
+                        } catch (IOException ex) {
+                            //ex.printStackTrace();
+                        }
+                        metadata.addnumregistros();
+                        Crear_Registro();
+                    } else {
+                        metadata.addnumregistros();
+                        Crear_Registro();
                     }
 
                 } else {
@@ -1286,7 +1300,7 @@ public class Main extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "No hay campos creados! XTT 435");
         }
-    
+
     }//GEN-LAST:event_jmi_Crear_RegistroActionPerformed
 
     private void jmi_Borrar_RegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Borrar_RegistroActionPerformed
@@ -1300,10 +1314,10 @@ public class Main extends javax.swing.JFrame {
                     export.add(Table.getValueAt(rowRemoval, i));
                 }
                 mode = -1;
-                
+
                 Eliminar_Dato_Archivo(export);
                 metadata.subtractnumregistros();
-                
+
                 TableModel modelo = Table.getModel();
                 DefaultTableModel model = (DefaultTableModel) modelo;
                 model.removeRow(rowRemoval);
@@ -1339,7 +1353,7 @@ public class Main extends javax.swing.JFrame {
 
     private void jmi_modregActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_modregActionPerformed
         // TODO add your handling code here:
- ArrayList export = new ArrayList();
+        ArrayList export = new ArrayList();
         //pedir cual modificar
         //agregar a un temporal
         //eliminarlo
@@ -1347,7 +1361,7 @@ public class Main extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Seleccione un Registro para modificar.");
         } else {
             try {
-                
+
                 for (int i = 0; i < metadata.getCampos().size(); i++) {
                     export.add(Table.getValueAt(rowRemoval, i));
                 }
@@ -1356,7 +1370,7 @@ public class Main extends javax.swing.JFrame {
                 Crear_Registro();
                 Eliminar_Dato_Archivo(export);
                 metadata.subtractnumregistros();
-                
+
                 TableModel modelo = Table.getModel();
                 DefaultTableModel model = (DefaultTableModel) modelo;
                 model.removeRow(rowRemoval);
@@ -1423,7 +1437,7 @@ public class Main extends javax.swing.JFrame {
 
     private void TableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMouseClicked
         // TODO add your handling code here:
-         rowRemoval = Table.getSelectedRow();
+        rowRemoval = Table.getSelectedRow();
         mode = 0;
     }//GEN-LAST:event_TableMouseClicked
 
@@ -1442,18 +1456,26 @@ public class Main extends javax.swing.JFrame {
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         try {
-            String nombre = "", tipo = "";
+            String nombre = "", tipo = "", llave_secundaria = "";
             nombre = txtcr_nombre.getText();
             tipo = cbocr_tipo.getSelectedItem().toString();
+            llave_secundaria = cbollave_s.getSelectedItem().toString();
+            if (llave_secundaria.equals("SI")) {
+                cantidad++;
+                if (cantidad == 2) {
+                    cbollave_s.setEnabled(false);
+                }
+            }
             Campo c = new Campo(nombre, tipo);
             listcampos.add(c);
-            metodos.CreateCampos(metadata, nombre, tipo, contador);
+            metodos.CreateCampos(metadata, nombre, tipo, contador, llave_secundaria);
             contador++;
         } catch (IOException ex) {
         } catch (ParseException ex) {
         }
         txtcr_nombre.setText("");
         cbocr_tipo.setSelectedIndex(0);
+        cbollave_s.setSelectedIndex(0);
         BuildTable(metadata, 0);
     }//GEN-LAST:event_btnCrearActionPerformed
 
@@ -1532,7 +1554,7 @@ public class Main extends javax.swing.JFrame {
             tipo = cbocr_tipo1.getSelectedItem().toString();
             Campo c = new Campo(nombre, tipo);
             listcampos.add(c);
-            metodos.CreateCampos(metadata, nombre, tipo, contador);
+            metodos.CreateCampos(metadata, nombre, tipo, contador, "");
             contador++;
             validar = true;
             JDCREAR_CAMPO1.setModal(false);
@@ -1549,7 +1571,7 @@ public class Main extends javax.swing.JFrame {
         }
         txtcr_nombre.setText("");
         cbocr_tipo.setSelectedIndex(0);
-        
+
     }//GEN-LAST:event_btnCrear1ActionPerformed
 
     /**
@@ -1605,8 +1627,10 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbocampos;
     private javax.swing.JComboBox<String> cbocr_tipo;
     private javax.swing.JComboBox<String> cbocr_tipo1;
+    private javax.swing.JComboBox<String> cbollave_s;
     private javax.swing.JComboBox<String> cbonuevo_tipo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
