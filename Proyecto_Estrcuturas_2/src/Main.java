@@ -258,15 +258,14 @@ public class Main extends javax.swing.JFrame {
         Object[] insertarray = new Object[metadata.getCampos().size()];
         for (int i = 0; i < metadata.getCampos().size(); i++) {
                     String temp = JOptionPane.showInputDialog(null, "Ingrese: " + metadata.getCampos().get(i).toString() + "\n Tipo:  " + metadata.getTipos().get(i).toString());
-                   
-                    if (metadata.getTipos().get(i).toString() == "Int") {
+                    if (metadata.getTipos().get(i).toString().equals("Int")) {
                         insertarray[i] = Integer.parseInt(temp);
                         
-                    } else if (metadata.getTipos().get(i).toString() == "long") {
+                    } else if (metadata.getTipos().get(i).toString().equals("long")) {
                         insertarray[i] = Long.parseLong(temp);
-                    } else if (metadata.getTipos().get(i).toString() == "String") {
+                    } else if (metadata.getTipos().get(i).toString().equals("String")) {
                         insertarray[i] = temp;
-                    } else if (metadata.getTipos().get(i).toString() == "Char") {
+                    } else if (metadata.getTipos().get(i).toString().equals("Char")) {
                         insertarray[i] = temp.charAt(0);
                     }
         }
@@ -1257,10 +1256,8 @@ public class Main extends javax.swing.JFrame {
             int Primarykey = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese el PrimaryKey del registro a buscar."));
             Registro temporal = new Registro(Primarykey);
             BNode x;
-            //System.out.println("------------");
             if ((x = metadata.getArbolB().search(temporal)) == null) {
                 JOptionPane.showMessageDialog(null, "No se pudo encontrar");
-                // System.out.println("------------");
             } else {
 
                 Data datos = Buscar_Dato_Archivo(temporal);
@@ -1273,13 +1270,38 @@ public class Main extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Operation aborted.");
-            //e.printStackTrace();
         }
     }//GEN-LAST:event_jmi_Buscar_RegistroActionPerformed
 
     private void jmi_modregActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_modregActionPerformed
         // TODO add your handling code here:
-
+ ArrayList export = new ArrayList();
+        //pedir cual modificar
+        //agregar a un temporal
+        //eliminarlo
+        if (mode == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione un Registro para modificar.");
+        } else {
+            try {
+                
+                for (int i = 0; i < metadata.getCampos().size(); i++) {
+                    export.add(Table.getValueAt(rowRemoval, i));
+                }
+                mode = -1;
+                Registro temporal = new Registro(Integer.parseInt(export.get(0).toString()));
+                Crear_Registro();
+                Eliminar_Dato_Archivo(export);
+                metadata.subtractnumregistros();
+                
+                TableModel modelo = Table.getModel();
+                DefaultTableModel model = (DefaultTableModel) modelo;
+                model.removeRow(rowRemoval);
+                Table.setModel(modelo);
+            } catch (Exception e) {
+            }
+        }
+        //crear uno nuevo con los datos de temporal
+        //guardar
     }//GEN-LAST:event_jmi_modregActionPerformed
 
     private void jmi_cruzarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_cruzarActionPerformed
