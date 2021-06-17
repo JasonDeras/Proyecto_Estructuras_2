@@ -1,6 +1,7 @@
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -13,6 +14,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import javax.swing.CellEditor;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.event.CellEditorListener;
@@ -34,7 +36,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
 public class Main extends javax.swing.JFrame {
-
+    boolean validar = false;
     int contador = 0;
     ArrayList<Campo> listcampos = new ArrayList();
 
@@ -581,6 +583,19 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        JDCREAR_CAMPO1 = new javax.swing.JDialog();
+        btnCrear1 = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txtcr_nombre1 = new javax.swing.JTextField();
+        cbocr_tipo1 = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        JDCREAR_CAMPO = new javax.swing.JDialog();
+        btnCrear = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtcr_nombre = new javax.swing.JTextField();
+        cbocr_tipo = new javax.swing.JComboBox<>();
         JDMODIFICAR_CAMPOS = new javax.swing.JDialog();
         cbocampos = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
@@ -593,13 +608,6 @@ public class Main extends javax.swing.JFrame {
         Listado_de_Campos = new javax.swing.JDialog();
         Listar_Campos = new javax.swing.JScrollPane();
         Table1 = new javax.swing.JTable();
-        JDCREAR_CAMPO = new javax.swing.JDialog();
-        btnCrear = new javax.swing.JButton();
-        btnMostrar = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        txtcr_nombre = new javax.swing.JTextField();
-        cbocr_tipo = new javax.swing.JComboBox<>();
         JDELIMINAR_CAMPOS = new javax.swing.JDialog();
         cboEliminar = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
@@ -630,6 +638,112 @@ public class Main extends javax.swing.JFrame {
         jm_Estandarizacion = new javax.swing.JMenu();
         jmi_Exportar_Excel = new javax.swing.JMenuItem();
         jmi_Exportrar_XML = new javax.swing.JMenuItem();
+
+        btnCrear1.setText("Crear");
+        btnCrear1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrear1ActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("Nombre");
+
+        jLabel8.setText("Tipo");
+
+        txtcr_nombre1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        cbocr_tipo1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Int", "long", "String", "Char" }));
+
+        javax.swing.GroupLayout JDCREAR_CAMPO1Layout = new javax.swing.GroupLayout(JDCREAR_CAMPO1.getContentPane());
+        JDCREAR_CAMPO1.getContentPane().setLayout(JDCREAR_CAMPO1Layout);
+        JDCREAR_CAMPO1Layout.setHorizontalGroup(
+            JDCREAR_CAMPO1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(txtcr_nombre1)
+            .addComponent(cbocr_tipo1, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(JDCREAR_CAMPO1Layout.createSequentialGroup()
+                .addGroup(JDCREAR_CAMPO1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(JDCREAR_CAMPO1Layout.createSequentialGroup()
+                        .addGap(240, 240, 240)
+                        .addGroup(JDCREAR_CAMPO1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(JDCREAR_CAMPO1Layout.createSequentialGroup()
+                        .addGap(197, 197, 197)
+                        .addComponent(btnCrear1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(139, Short.MAX_VALUE))
+        );
+        JDCREAR_CAMPO1Layout.setVerticalGroup(
+            JDCREAR_CAMPO1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JDCREAR_CAMPO1Layout.createSequentialGroup()
+                .addGroup(JDCREAR_CAMPO1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(JDCREAR_CAMPO1Layout.createSequentialGroup()
+                        .addGap(65, 65, 65)
+                        .addComponent(jLabel7)
+                        .addGap(35, 35, 35))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JDCREAR_CAMPO1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
+                .addComponent(txtcr_nombre1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62)
+                .addComponent(jLabel8)
+                .addGap(41, 41, 41)
+                .addComponent(cbocr_tipo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                .addComponent(btnCrear1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68))
+        );
+
+        btnCrear.setText("Crear");
+        btnCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Nombre");
+
+        jLabel5.setText("Tipo");
+
+        txtcr_nombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        cbocr_tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Int", "long", "String", "Char" }));
+
+        javax.swing.GroupLayout JDCREAR_CAMPOLayout = new javax.swing.GroupLayout(JDCREAR_CAMPO.getContentPane());
+        JDCREAR_CAMPO.getContentPane().setLayout(JDCREAR_CAMPOLayout);
+        JDCREAR_CAMPOLayout.setHorizontalGroup(
+            JDCREAR_CAMPOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(txtcr_nombre)
+            .addComponent(cbocr_tipo, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(JDCREAR_CAMPOLayout.createSequentialGroup()
+                .addGroup(JDCREAR_CAMPOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(JDCREAR_CAMPOLayout.createSequentialGroup()
+                        .addGap(240, 240, 240)
+                        .addGroup(JDCREAR_CAMPOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)))
+                    .addGroup(JDCREAR_CAMPOLayout.createSequentialGroup()
+                        .addGap(200, 200, 200)
+                        .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(210, Short.MAX_VALUE))
+        );
+        JDCREAR_CAMPOLayout.setVerticalGroup(
+            JDCREAR_CAMPOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JDCREAR_CAMPOLayout.createSequentialGroup()
+                .addGap(65, 65, 65)
+                .addComponent(jLabel4)
+                .addGap(35, 35, 35)
+                .addComponent(txtcr_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62)
+                .addComponent(jLabel5)
+                .addGap(41, 41, 41)
+                .addComponent(cbocr_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
+                .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55))
+        );
 
         cbocampos.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -740,66 +854,6 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(Listar_Campos, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
                 .addContainerGap())
-        );
-
-        btnCrear.setText("Crear");
-        btnCrear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearActionPerformed(evt);
-            }
-        });
-
-        btnMostrar.setText("Mostrar");
-        btnMostrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMostrarActionPerformed(evt);
-            }
-        });
-
-        jLabel4.setText("Nombre");
-
-        jLabel5.setText("Tipo");
-
-        txtcr_nombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
-        cbocr_tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Int", "long", "String", "Char" }));
-
-        javax.swing.GroupLayout JDCREAR_CAMPOLayout = new javax.swing.GroupLayout(JDCREAR_CAMPO.getContentPane());
-        JDCREAR_CAMPO.getContentPane().setLayout(JDCREAR_CAMPOLayout);
-        JDCREAR_CAMPOLayout.setHorizontalGroup(
-            JDCREAR_CAMPOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(JDCREAR_CAMPOLayout.createSequentialGroup()
-                .addGroup(JDCREAR_CAMPOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(JDCREAR_CAMPOLayout.createSequentialGroup()
-                        .addGap(109, 109, 109)
-                        .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(81, 81, 81)
-                        .addComponent(btnMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(JDCREAR_CAMPOLayout.createSequentialGroup()
-                        .addGap(240, 240, 240)
-                        .addGroup(JDCREAR_CAMPOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))))
-                .addContainerGap(102, Short.MAX_VALUE))
-            .addComponent(txtcr_nombre)
-            .addComponent(cbocr_tipo, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        JDCREAR_CAMPOLayout.setVerticalGroup(
-            JDCREAR_CAMPOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JDCREAR_CAMPOLayout.createSequentialGroup()
-                .addGap(65, 65, 65)
-                .addComponent(jLabel4)
-                .addGap(35, 35, 35)
-                .addComponent(txtcr_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62)
-                .addComponent(jLabel5)
-                .addGap(41, 41, 41)
-                .addComponent(cbocr_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
-                .addGroup(JDCREAR_CAMPOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(54, 54, 54))
         );
 
         jLabel6.setText("Seleccione el campo que desea Eliminar: ");
@@ -1094,10 +1148,20 @@ public class Main extends javax.swing.JFrame {
 
     private void jmi_Crear_CampoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Crear_CampoActionPerformed
         // TODO add your handling code here:
-        JDCREAR_CAMPO.setModal(true);
-        JDCREAR_CAMPO.pack();
-        JDCREAR_CAMPO.setLocationRelativeTo(null);
-        JDCREAR_CAMPO.setVisible(true);
+        if (validar == true) {
+            JDCREAR_CAMPO.setModal(true);
+            JDCREAR_CAMPO.pack();
+            JDCREAR_CAMPO.setLocationRelativeTo(null);
+            JDCREAR_CAMPO.setVisible(true);
+        } else {
+            JDCREAR_CAMPO1.setModal(true);
+            JDCREAR_CAMPO1.pack();
+            JDCREAR_CAMPO1.setLocationRelativeTo(null);
+            JDCREAR_CAMPO1.setVisible(true);
+            ImageIcon key = new ImageIcon(getClass().getResource("/Imagen/key.png"));
+            ImageIcon icono = new ImageIcon(key.getImage().getScaledInstance(jLabel9.getWidth(), jLabel9.getHeight(), Image.SCALE_DEFAULT));
+            jLabel9.setIcon(icono);
+        }
     }//GEN-LAST:event_jmi_Crear_CampoActionPerformed
 
     private void jmi_Modificar_CampoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Modificar_CampoActionPerformed
@@ -1390,12 +1454,8 @@ public class Main extends javax.swing.JFrame {
         }
         txtcr_nombre.setText("");
         cbocr_tipo.setSelectedIndex(0);
-    }//GEN-LAST:event_btnCrearActionPerformed
-
-    private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
-        // TODO add your handling code here:
         BuildTable(metadata, 0);
-    }//GEN-LAST:event_btnMostrarActionPerformed
+    }//GEN-LAST:event_btnCrearActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
@@ -1464,6 +1524,34 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
+    private void btnCrear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrear1ActionPerformed
+        // TODO add your handling code here:
+        try {
+            String nombre = "", tipo = "";
+            nombre = txtcr_nombre1.getText();
+            tipo = cbocr_tipo1.getSelectedItem().toString();
+            Campo c = new Campo(nombre, tipo);
+            listcampos.add(c);
+            metodos.CreateCampos(metadata, nombre, tipo, contador);
+            contador++;
+            validar = true;
+            JDCREAR_CAMPO1.setModal(false);
+            JDCREAR_CAMPO1.pack();
+            JDCREAR_CAMPO1.setLocationRelativeTo(null);
+            JDCREAR_CAMPO1.setVisible(false);
+            BuildTable(metadata, 0);
+            JDCREAR_CAMPO.setModal(true);
+            JDCREAR_CAMPO.pack();
+            JDCREAR_CAMPO.setLocationRelativeTo(null);
+            JDCREAR_CAMPO.setVisible(true);
+        } catch (IOException ex) {
+        } catch (ParseException ex) {
+        }
+        txtcr_nombre.setText("");
+        cbocr_tipo.setSelectedIndex(0);
+        
+    }//GEN-LAST:event_btnCrear1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1501,6 +1589,7 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog JDCREAR_CAMPO;
+    private javax.swing.JDialog JDCREAR_CAMPO1;
     private javax.swing.JDialog JDELIMINAR_CAMPOS;
     private javax.swing.JDialog JDMODIFICAR_CAMPOS;
     private javax.swing.JDialog Listado_de_Campos;
@@ -1508,13 +1597,14 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTable Table;
     private javax.swing.JTable Table1;
     private javax.swing.JButton btnCrear;
+    private javax.swing.JButton btnCrear1;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
-    private javax.swing.JButton btnMostrar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cboEliminar;
     private javax.swing.JComboBox<String> cbocampos;
     private javax.swing.JComboBox<String> cbocr_tipo;
+    private javax.swing.JComboBox<String> cbocr_tipo1;
     private javax.swing.JComboBox<String> cbonuevo_tipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -1522,6 +1612,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jm_Archivo;
     private javax.swing.JMenu jm_Estandarizacion;
     private javax.swing.JMenu jm_Registros;
@@ -1548,6 +1641,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_reindexar;
     private javax.swing.JScrollPane jsp_Tabla;
     private javax.swing.JTextField txtcr_nombre;
+    private javax.swing.JTextField txtcr_nombre1;
     private javax.swing.JTextField txtnuevo_Nombre;
     // End of variables declaration//GEN-END:variables
     Metadata metadata;
