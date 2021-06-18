@@ -716,7 +716,7 @@ public class Main extends javax.swing.JFrame {
 
         jLabel10.setText("Desea que sea llave secundaria?");
 
-        cbollave_s.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "SI", " " }));
+        cbollave_s.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "SI" }));
 
         javax.swing.GroupLayout JDCREAR_CAMPOLayout = new javax.swing.GroupLayout(JDCREAR_CAMPO.getContentPane());
         JDCREAR_CAMPO.getContentPane().setLayout(JDCREAR_CAMPOLayout);
@@ -782,6 +782,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         cbonuevo_tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Int", "long", "String", "Char" }));
 
@@ -1455,23 +1460,27 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_Table1PropertyChange
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-        try {
-            String nombre = "", tipo = "", llave_secundaria = "";
-            nombre = txtcr_nombre.getText();
-            tipo = cbocr_tipo.getSelectedItem().toString();
-            llave_secundaria = cbollave_s.getSelectedItem().toString();
-            if (llave_secundaria.equals("SI")) {
-                cantidad++;
-                if (cantidad == 2) {
-                    cbollave_s.setEnabled(false);
+        if (txtcr_nombre.getText().isEmpty() || cbocr_tipo.getSelectedItem().toString().isEmpty()) {
+            JOptionPane.showMessageDialog(JDCREAR_CAMPO, "Por favor, LLene los campos vacios");
+        } else {
+            try {
+                String nombre = "", tipo = "", llave_secundaria = "";
+                nombre = txtcr_nombre.getText();
+                tipo = cbocr_tipo.getSelectedItem().toString();
+                llave_secundaria = cbollave_s.getSelectedItem().toString();
+                if (llave_secundaria.equals("SI")) {
+                    cantidad++;
+                    if (cantidad == 2) {
+                        cbollave_s.setEnabled(false);
+                    }
                 }
+                Campo c = new Campo(nombre, tipo);
+                listcampos.add(c);
+                metodos.CreateCampos(metadata, nombre, tipo, contador, llave_secundaria);
+                contador++;
+            } catch (IOException ex) {
+            } catch (ParseException ex) {
             }
-            Campo c = new Campo(nombre, tipo);
-            listcampos.add(c);
-            metodos.CreateCampos(metadata, nombre, tipo, contador, llave_secundaria);
-            contador++;
-        } catch (IOException ex) {
-        } catch (ParseException ex) {
         }
         txtcr_nombre.setText("");
         cbocr_tipo.setSelectedIndex(0);
@@ -1523,56 +1532,72 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         String nuevo_nombre = "", nuevo_tipo = "";
         int posicion = 0;
-        nuevo_nombre = txtnuevo_Nombre.getText();
-        nuevo_tipo = cbonuevo_tipo.getSelectedItem().toString();
-        posicion = cbocampos.getSelectedIndex();
-        if (metadata.getNumregistros() == 0 && metadata.getCampos() != null) {
-            try {
-                if (metadata.getCampos().size() == 0) {
+        if (txtnuevo_Nombre.getText().isEmpty() || cbonuevo_tipo.getSelectedItem().toString().isEmpty()) {
+            JOptionPane.showMessageDialog(JDMODIFICAR_CAMPOS, "Por favor, LLene los campos vacios");
+        } else {
+            nuevo_nombre = txtnuevo_Nombre.getText();
+            nuevo_tipo = cbonuevo_tipo.getSelectedItem().toString();
+            posicion = cbocampos.getSelectedIndex();
+            if (metadata.getNumregistros() == 0 && metadata.getCampos() != null) {
+                try {
+                    if (metadata.getCampos().size() == 0) {
 
-                } else {
-                    metodos.ModificarCampos(metadata, nuevo_nombre, nuevo_tipo, posicion);
-                    BuildTable(metadata, 0);
-                    listcampos.get(posicion).setNombre(nuevo_nombre);
-                    listcampos.get(posicion).setTipo(nuevo_tipo);
+                    } else {
+                        metodos.ModificarCampos(metadata, nuevo_nombre, nuevo_tipo, posicion);
+                        BuildTable(metadata, 0);
+                        listcampos.get(posicion).setNombre(nuevo_nombre);
+                        listcampos.get(posicion).setTipo(nuevo_tipo);
+                    }
+
+                } catch (Exception e) {
+
                 }
 
-            } catch (Exception e) {
-
+            } else {
+                JOptionPane.showMessageDialog(null, "Invalid Operation");
             }
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Invalid Operation");
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnCrear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrear1ActionPerformed
         // TODO add your handling code here:
-        try {
-            String nombre = "", tipo = "";
-            nombre = txtcr_nombre1.getText();
-            tipo = cbocr_tipo1.getSelectedItem().toString();
-            Campo c = new Campo(nombre, tipo);
-            listcampos.add(c);
-            metodos.CreateCampos(metadata, nombre, tipo, contador, "");
-            contador++;
-            validar = true;
-            JDCREAR_CAMPO1.setModal(false);
-            JDCREAR_CAMPO1.pack();
-            JDCREAR_CAMPO1.setLocationRelativeTo(null);
-            JDCREAR_CAMPO1.setVisible(false);
-            BuildTable(metadata, 0);
-            JDCREAR_CAMPO.setModal(true);
-            JDCREAR_CAMPO.pack();
-            JDCREAR_CAMPO.setLocationRelativeTo(null);
-            JDCREAR_CAMPO.setVisible(true);
-        } catch (IOException ex) {
-        } catch (ParseException ex) {
+        if (txtcr_nombre1.getText().isEmpty() || cbocr_tipo1.getSelectedItem().toString().isEmpty()) {
+            JOptionPane.showMessageDialog(JDCREAR_CAMPO1, "Por favor, LLene los campos vacios");
+        } else {
+            try {
+                String nombre = "", tipo = "";
+                nombre = txtcr_nombre1.getText();
+                tipo = cbocr_tipo1.getSelectedItem().toString();
+                Campo c = new Campo(nombre, tipo);
+                listcampos.add(c);
+                metodos.CreateCampos(metadata, nombre, tipo, contador, "");
+                contador++;
+                validar = true;
+                JDCREAR_CAMPO1.setModal(false);
+                JDCREAR_CAMPO1.pack();
+                JDCREAR_CAMPO1.setLocationRelativeTo(null);
+                JDCREAR_CAMPO1.setVisible(false);
+                BuildTable(metadata, 0);
+                JDCREAR_CAMPO.setModal(true);
+                JDCREAR_CAMPO.pack();
+                JDCREAR_CAMPO.setLocationRelativeTo(null);
+                JDCREAR_CAMPO.setVisible(true);
+            } catch (IOException ex) {
+            } catch (ParseException ex) {
+            }
         }
         txtcr_nombre.setText("");
         cbocr_tipo.setSelectedIndex(0);
 
     }//GEN-LAST:event_btnCrear1ActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        JDMODIFICAR_CAMPOS.setModal(false);
+        JDMODIFICAR_CAMPOS.pack();
+        JDMODIFICAR_CAMPOS.setLocationRelativeTo(null);
+        JDMODIFICAR_CAMPOS.setVisible(false);
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments
