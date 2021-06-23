@@ -1436,7 +1436,13 @@ public class Main extends javax.swing.JFrame {
 
     private void jmi_crearindicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_crearindicesActionPerformed
         // TODO add your handling code here:
-
+        System.out.println("=========================================");
+        System.out.println("Imprimiendo en Orden...");
+        metadata.ArbolB.traverse();
+        System.out.println("Imprimiendo en Forma de Decendencia a 3 Nieveles...");
+        metadata.ArbolB.PrintLevels();
+        System.out.println("=========================================");
+        System.out.println(metadata.getLlave_secundaria());
     }//GEN-LAST:event_jmi_crearindicesActionPerformed
 
     private void jmi_reindexarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_reindexarActionPerformed
