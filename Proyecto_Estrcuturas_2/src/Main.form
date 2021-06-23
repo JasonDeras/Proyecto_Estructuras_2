@@ -461,12 +461,24 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_Nuevo_ArchivoActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmi_Cargar_Archivo">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Iconos/Cargar archivo.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Cargar Archivo"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_Cargar_ArchivoActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmi_Salvar_Archivo">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Iconos/Salvar archivo.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvar Archivo"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_Salvar_ArchivoActionPerformed"/>
@@ -478,20 +490,10 @@
                   <Image iconType="3" name="/Iconos/cerrar archivo.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Cerrar Archivo"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_Cerrar_ArchivoActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmi_Cargar_Archivo">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Iconos/Cargar archivo.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Cargar Archivo"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_Cargar_ArchivoActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmi_Salir">
@@ -510,6 +512,7 @@
         <Menu class="javax.swing.JMenu" name="jmi_Campos">
           <Properties>
             <Property name="text" type="java.lang.String" value="Campos"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jmi_Crear_Campo">
@@ -561,6 +564,7 @@
         <Menu class="javax.swing.JMenu" name="jm_Registros">
           <Properties>
             <Property name="text" type="java.lang.String" value="Registros"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jmi_Crear_Registro">
@@ -620,6 +624,7 @@
         <Menu class="javax.swing.JMenu" name="jm_indices">
           <Properties>
             <Property name="text" type="java.lang.String" value="Indice"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jmi_crearindices">
@@ -643,6 +648,7 @@
         <Menu class="javax.swing.JMenu" name="jm_Estandarizacion">
           <Properties>
             <Property name="text" type="java.lang.String" value="Estandarizacion"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jmi_Exportar_Excel">

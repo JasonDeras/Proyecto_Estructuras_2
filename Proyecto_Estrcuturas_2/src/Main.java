@@ -210,7 +210,12 @@ public class Main extends javax.swing.JFrame {
                     if (file.length() == 0) {
                         this.file = new File(direction);
                         JOptionPane.showMessageDialog(this, "Sucesso!\n Calquier progreso sin salvar se perdio");
-
+                        jmi_Campos.setEnabled(true);
+                        jm_Registros.setEnabled(true);
+                        jm_indices.setEnabled(true);
+                        jm_Estandarizacion.setEnabled(true);
+                        jmi_Salvar_Archivo.setEnabled(true);
+                        jmi_Cerrar_Archivo.setEnabled(true);
                     } else if (file.exists()) {
                         file.delete();
                         file.createNewFile();
@@ -620,9 +625,9 @@ public class Main extends javax.swing.JFrame {
         jmb_Principal = new javax.swing.JMenuBar();
         jm_Archivo = new javax.swing.JMenu();
         jmi_Nuevo_Archivo = new javax.swing.JMenuItem();
+        jmi_Cargar_Archivo = new javax.swing.JMenuItem();
         jmi_Salvar_Archivo = new javax.swing.JMenuItem();
         jmi_Cerrar_Archivo = new javax.swing.JMenuItem();
-        jmi_Cargar_Archivo = new javax.swing.JMenuItem();
         jmi_Salir = new javax.swing.JMenuItem();
         jmi_Campos = new javax.swing.JMenu();
         jmi_Crear_Campo = new javax.swing.JMenuItem();
@@ -943,8 +948,18 @@ public class Main extends javax.swing.JFrame {
         });
         jm_Archivo.add(jmi_Nuevo_Archivo);
 
+        jmi_Cargar_Archivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Cargar archivo.png"))); // NOI18N
+        jmi_Cargar_Archivo.setText("Cargar Archivo");
+        jmi_Cargar_Archivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_Cargar_ArchivoActionPerformed(evt);
+            }
+        });
+        jm_Archivo.add(jmi_Cargar_Archivo);
+
         jmi_Salvar_Archivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Salvar archivo.png"))); // NOI18N
         jmi_Salvar_Archivo.setText("Salvar Archivo");
+        jmi_Salvar_Archivo.setEnabled(false);
         jmi_Salvar_Archivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmi_Salvar_ArchivoActionPerformed(evt);
@@ -954,21 +969,13 @@ public class Main extends javax.swing.JFrame {
 
         jmi_Cerrar_Archivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cerrar archivo.png"))); // NOI18N
         jmi_Cerrar_Archivo.setText("Cerrar Archivo");
+        jmi_Cerrar_Archivo.setEnabled(false);
         jmi_Cerrar_Archivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmi_Cerrar_ArchivoActionPerformed(evt);
             }
         });
         jm_Archivo.add(jmi_Cerrar_Archivo);
-
-        jmi_Cargar_Archivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Cargar archivo.png"))); // NOI18N
-        jmi_Cargar_Archivo.setText("Cargar Archivo");
-        jmi_Cargar_Archivo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmi_Cargar_ArchivoActionPerformed(evt);
-            }
-        });
-        jm_Archivo.add(jmi_Cargar_Archivo);
 
         jmi_Salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/log out.png"))); // NOI18N
         jmi_Salir.setText("Salir");
@@ -982,6 +989,7 @@ public class Main extends javax.swing.JFrame {
         jmb_Principal.add(jm_Archivo);
 
         jmi_Campos.setText("Campos");
+        jmi_Campos.setEnabled(false);
 
         jmi_Crear_Campo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/crear campo.png"))); // NOI18N
         jmi_Crear_Campo.setText("Crear Campo");
@@ -1022,6 +1030,7 @@ public class Main extends javax.swing.JFrame {
         jmb_Principal.add(jmi_Campos);
 
         jm_Registros.setText("Registros");
+        jm_Registros.setEnabled(false);
 
         jmi_Crear_Registro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/nueva tarea1.png"))); // NOI18N
         jmi_Crear_Registro.setText("Crear Registro");
@@ -1070,6 +1079,7 @@ public class Main extends javax.swing.JFrame {
         jmb_Principal.add(jm_Registros);
 
         jm_indices.setText("Indice");
+        jm_indices.setEnabled(false);
 
         jmi_crearindices.setText("Crear Indices");
         jmi_crearindices.addActionListener(new java.awt.event.ActionListener() {
@@ -1090,6 +1100,7 @@ public class Main extends javax.swing.JFrame {
         jmb_Principal.add(jm_indices);
 
         jm_Estandarizacion.setText("Estandarizacion");
+        jm_Estandarizacion.setEnabled(false);
 
         jmi_Exportar_Excel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Exportar excel.png"))); // NOI18N
         jmi_Exportar_Excel.setText("Exportar EXCEL");
@@ -1148,6 +1159,19 @@ public class Main extends javax.swing.JFrame {
         try {
             RAfile.close();
             Table.setModel(cleanTable);
+            listcampos.clear();
+            cbocampos.removeAllItems();
+            cboEliminar.removeAllItems();
+            metadata.getCampos().clear();
+            metadata.getTipos().clear();
+            contador = 0;
+            cantidad = 0;
+            jmi_Campos.setEnabled(false);
+            jm_Registros.setEnabled(false);
+            jm_indices.setEnabled(false);
+            jm_Estandarizacion.setEnabled(false);
+            jmi_Salvar_Archivo.setEnabled(false);
+            jmi_Cerrar_Archivo.setEnabled(false);
             JOptionPane.showMessageDialog(null, "Cerrado Exitosamente", "Cerrado", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al cerrar", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
@@ -1168,6 +1192,12 @@ public class Main extends javax.swing.JFrame {
                     Campo c = new Campo(metadata.getCampos().get(i).toString(), metadata.getTipos().get(i).toString());
                     listcampos.add(c);
                 }
+                jmi_Campos.setEnabled(true);
+                jm_Registros.setEnabled(true);
+                jm_indices.setEnabled(true);
+                jm_Estandarizacion.setEnabled(true);
+                jmi_Salvar_Archivo.setEnabled(true);
+                jmi_Cerrar_Archivo.setEnabled(true);
                 contador = listcampos.size();
             } catch (ClassNotFoundException ex) {
             }
@@ -1199,28 +1229,30 @@ public class Main extends javax.swing.JFrame {
 
     private void jmi_Modificar_CampoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Modificar_CampoActionPerformed
         // TODO add your handling code here:
-        JDMODIFICAR_CAMPOS.setModal(true);
-        JDMODIFICAR_CAMPOS.pack();
-        JDMODIFICAR_CAMPOS.setLocationRelativeTo(null);
-        JDMODIFICAR_CAMPOS.setVisible(true);
         for (int i = 0; i < listcampos.size(); i++) {
             DefaultComboBoxModel modelo1;
             modelo1 = new DefaultComboBoxModel(listcampos.toArray());
             cbocampos.setModel(modelo1);
         }
+        JDMODIFICAR_CAMPOS.setModal(true);
+        JDMODIFICAR_CAMPOS.pack();
+        JDMODIFICAR_CAMPOS.setLocationRelativeTo(null);
+        JDMODIFICAR_CAMPOS.setVisible(true);
+
     }//GEN-LAST:event_jmi_Modificar_CampoActionPerformed
 
     private void jmi_Borrar_CampoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Borrar_CampoActionPerformed
         // TODO add your handling code here:
-        JDELIMINAR_CAMPOS.setModal(true);
-        JDELIMINAR_CAMPOS.pack();
-        JDELIMINAR_CAMPOS.setLocationRelativeTo(null);
-        JDELIMINAR_CAMPOS.setVisible(true);
         for (int i = 0; i < listcampos.size(); i++) {
             DefaultComboBoxModel modelo1;
             modelo1 = new DefaultComboBoxModel(listcampos.toArray());
             cboEliminar.setModel(modelo1);
         }
+        JDELIMINAR_CAMPOS.setModal(true);
+        JDELIMINAR_CAMPOS.pack();
+        JDELIMINAR_CAMPOS.setLocationRelativeTo(null);
+        JDELIMINAR_CAMPOS.setVisible(true);
+
     }//GEN-LAST:event_jmi_Borrar_CampoActionPerformed
 
     private void jmi_Listar_CamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Listar_CamposActionPerformed
@@ -1583,12 +1615,12 @@ public class Main extends javax.swing.JFrame {
                 listcampos.add(c);
                 metodos.CreateCampos(metadata, nombre, tipo, contador, "");
                 contador++;
+                BuildTable(metadata, 0);
                 validar = true;
                 JDCREAR_CAMPO1.setModal(false);
                 JDCREAR_CAMPO1.pack();
                 JDCREAR_CAMPO1.setLocationRelativeTo(null);
                 JDCREAR_CAMPO1.setVisible(false);
-                BuildTable(metadata, 0);
                 JDCREAR_CAMPO.setModal(true);
                 JDCREAR_CAMPO.pack();
                 JDCREAR_CAMPO.setLocationRelativeTo(null);
