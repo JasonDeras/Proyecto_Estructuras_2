@@ -1962,9 +1962,9 @@ public class Main extends javax.swing.JFrame {
         String[] cols = {""};
         DefaultTableModel tabla = new DefaultTableModel();
         tabla.addColumn("Campo");
+        tabla.addColumn("Tipo");
         String tipo;
-        
-        for (int i = 0; i < metadata2.getCampos().size()+metadata.getCampos().size(); i++) {
+        for (int i = 0; i < metadata2.getCampos().size(); i++) {
             tabla.addRow(cols);
         }
 
@@ -1975,10 +1975,11 @@ public class Main extends javax.swing.JFrame {
         for (int i = 0; i < metadata2.getCampos().size(); i++) {
             if (metadata2.getTipos().get(i).toString().equals("Int")&& metadata.getCampos().get(i).toString().equals(metadata2.getCampos().get(i).toString())) {
                 tabla.setValueAt(metadata2.getCampos().get(i).toString(), primero, segundo);
+                tabla.setValueAt("Entero", primero, segundo + 1);
                 Table4.setModel(tabla);
             } else if (metadata2.getTipos().get(i).toString().equals("long")) {
                 tabla.setValueAt(metadata2.getCampos().get(i), primero, segundo);
-                
+                tabla.setValueAt("Long", primero, segundo + 1);
                 Table4.setModel(tabla);
             } else if (metadata.getTipos().get(i).toString().equals("String")) {
                 tabla.setValueAt(metadata2.getCampos().get(i), primero, segundo);
