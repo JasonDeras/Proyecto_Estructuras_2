@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -57,35 +58,25 @@ public class Main extends javax.swing.JFrame {
         fileChooser.setFileFilter(data);
         int seleccion = fileChooser.showOpenDialog(this);
         if (seleccion == JFileChooser.APPROVE_OPTION) { //Cuando le da guardar
-            //System.out.println(fileChooser.getCurrentDirectory().toString());
             File file = null;
-            // FileOutputStream fos = null;
-            // ObjectOutputStream ous = null;
             try {
                 if (fileChooser.getFileFilter().getDescription().equals("DAT FILE")) { //Chequea si lo que quiere guardar es DAT FILE
                     direction = fileChooser.getSelectedFile().getPath() + ".dat";
                     file = fileChooser.getSelectedFile();
                     this.file = file;
                     JOptionPane.showMessageDialog(null, "Sucess!");
-                    System.out.println("Length of Loaded File: " + (file.length() - 4)); //SIZE MENOS BUFFER.
                     FileSuccess = 1;
                 } else {
                     JOptionPane.showMessageDialog(this, "Unable to Load. Use DAT FILE.");
                 }
-                // fos = new FileOutputStream(file);
-                //  ous = new ObjectOutputStream(fos);
-                //  ous.flush(); //Lo oficializo
-
-                // RAfile=new RandomAccessFile(file,"rw");
+             
             } catch (Exception e) {
                 //e.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Something Went Wrong! Contact System Administrator.");
             }
             try {
-                //ous.close();
-                // fos.close();
+             
             } catch (Exception e) {
-                //e.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Fatal error closing files.");
             }
 
@@ -569,6 +560,58 @@ public class Main extends javax.swing.JFrame {
         }
     }
 
+    public void Cargar_Archivo_2() {
+        FileSuccess2 = 0;
+        String direction;
+
+        //Creo un nuevo JFileChooser para que eliga donde guardar.
+        //Le digo que aparezca en el home del proyecto .. Crea un problema que la Metadata se puede guardar en cualquier sitio.
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File("./"));
+        FileNameExtensionFilter data = new FileNameExtensionFilter("DAT FILE", "dat");
+        fileChooser.setFileFilter(data);
+        int seleccion = fileChooser.showOpenDialog(this);
+        if (seleccion == JFileChooser.APPROVE_OPTION) { //Cuando le da guardar
+            File file = null;
+          
+            try {
+                if (fileChooser.getFileFilter().getDescription().equals("DAT FILE")) { //Chequea si lo que quiere guardar es DAT FILE
+                    direction = fileChooser.getSelectedFile().getPath() + ".dat";
+                    file = fileChooser.getSelectedFile();
+                    this.file2 = file;
+                    JOptionPane.showMessageDialog(null, "Sucess!");
+                    FileSuccess2 = 1;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Unable to Load. Use DAT FILE.");
+                }
+             
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Something Went Wrong! Contact System Administrator.");
+            }
+            try {
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Fatal error closing files.");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Operation aborted!");
+        }
+
+    }
+    
+     public void CargarMetadatos_2() throws ClassNotFoundException {
+        try {
+            RAfile2 = new RandomAccessFile(file2, "rw");
+            int tamaño = RAfile2.readInt();
+            byte[] data = new byte[tamaño];
+            RAfile2.read(data);
+            ByteArrayInputStream in = new ByteArrayInputStream(data);
+            ObjectInputStream read = new ObjectInputStream(in);
+            metadata2 = (Metadata) read.readObject();
+            metadata2.setSizeMeta(tamaño);
+        } catch (IOException ex) {
+        }
+    }
     public Main() {
         initComponents();
         this.setTitle("Principal");
@@ -620,6 +663,18 @@ public class Main extends javax.swing.JFrame {
         cboEliminar = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         btnEliminar = new javax.swing.JButton();
+        jd_Cruzar = new javax.swing.JDialog();
+        jsp_Tabla_Campos1 = new javax.swing.JScrollPane();
+        Table2 = new javax.swing.JTable();
+        label1 = new java.awt.Label();
+        jsp_Tabla_Campos2 = new javax.swing.JScrollPane();
+        Table3 = new javax.swing.JTable();
+        label2 = new java.awt.Label();
+        jb_Cargar_Cruze = new javax.swing.JButton();
+        jsp_Tabla_Cruce = new javax.swing.JScrollPane();
+        Table4 = new javax.swing.JTable();
+        label3 = new java.awt.Label();
+        jb_Relacion_Campos = new javax.swing.JButton();
         jsp_Tabla = new javax.swing.JScrollPane();
         Table = new javax.swing.JTable();
         jmb_Principal = new javax.swing.JMenuBar();
@@ -913,6 +968,136 @@ public class Main extends javax.swing.JFrame {
                 .addGap(68, 68, 68)
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(70, Short.MAX_VALUE))
+        );
+
+        Table2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        Table2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Table2MouseClicked(evt);
+            }
+        });
+        Table2.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                Table2PropertyChange(evt);
+            }
+        });
+        jsp_Tabla_Campos1.setViewportView(Table2);
+
+        label1.setText("Campos Primer Archivo");
+
+        Table3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        Table3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Table3MouseClicked(evt);
+            }
+        });
+        Table3.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                Table3PropertyChange(evt);
+            }
+        });
+        jsp_Tabla_Campos2.setViewportView(Table3);
+
+        label2.setText("Campos Segundo Archivo Archivo");
+
+        jb_Cargar_Cruze.setText("Cargar Campos Segundo Archivo");
+        jb_Cargar_Cruze.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jb_Cargar_CruzeActionPerformed(evt);
+            }
+        });
+
+        Table4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        Table4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Table4MouseClicked(evt);
+            }
+        });
+        Table4.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                Table4PropertyChange(evt);
+            }
+        });
+        jsp_Tabla_Cruce.setViewportView(Table4);
+
+        label3.setText("Campos Relacionados de ambos archivos");
+
+        jb_Relacion_Campos.setText("Hacer Relacion");
+        jb_Relacion_Campos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jb_Relacion_CamposActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jd_CruzarLayout = new javax.swing.GroupLayout(jd_Cruzar.getContentPane());
+        jd_Cruzar.getContentPane().setLayout(jd_CruzarLayout);
+        jd_CruzarLayout.setHorizontalGroup(
+            jd_CruzarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_CruzarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jd_CruzarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jsp_Tabla_Campos1, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jd_CruzarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_CruzarLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                        .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(272, 272, 272))
+                    .addGroup(jd_CruzarLayout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addGroup(jd_CruzarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jb_Cargar_Cruze)
+                            .addComponent(jsp_Tabla_Campos2, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jd_CruzarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jsp_Tabla_Cruce, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jb_Relacion_Campos))
+                .addGap(144, 144, 144))
+        );
+        jd_CruzarLayout.setVerticalGroup(
+            jd_CruzarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_CruzarLayout.createSequentialGroup()
+                .addGap(87, 87, 87)
+                .addGroup(jd_CruzarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jb_Relacion_Campos)
+                    .addComponent(jb_Cargar_Cruze))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addGroup(jd_CruzarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jd_CruzarLayout.createSequentialGroup()
+                        .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jsp_Tabla_Campos2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jd_CruzarLayout.createSequentialGroup()
+                        .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51)
+                        .addComponent(jsp_Tabla_Campos1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jd_CruzarLayout.createSequentialGroup()
+                        .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addComponent(jsp_Tabla_Cruce, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(69, 69, 69))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -1432,6 +1617,51 @@ public class Main extends javax.swing.JFrame {
 
     private void jmi_cruzarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_cruzarActionPerformed
         // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "El primer campo es campo llave");
+        Table2.setForeground(Color.BLACK);
+        Table2.setBackground(Color.WHITE);
+        Table2.setFont(new Font("", 1, 22));
+        Table2.setRowHeight(30);
+        Table2.putClientProperty("terminateEditOnFocusLost", true);
+        String[] cols = {"", ""};
+        DefaultTableModel tabla = new DefaultTableModel();
+        tabla.addColumn("Campo");
+        tabla.addColumn("Tipo");
+        String tipo;
+        for (int i = 0; i < metadata.getCampos().size(); i++) {
+            tabla.addRow(cols);
+        }
+
+        Table2.setModel(tabla);
+        int primero = 0;
+        int segundo = 0;
+
+        for (int i = 0; i < metadata.getCampos().size(); i++) {
+            if (metadata.getTipos().get(i).toString().equals("Int")) {
+                tabla.setValueAt(metadata.getCampos().get(i).toString(), primero, segundo);
+                tabla.setValueAt("Entero", primero, segundo + 1);
+                Table2.setModel(tabla);
+            } else if (metadata.getTipos().get(i).toString().equals("long")) {
+                tabla.setValueAt(metadata.getCampos().get(i), primero, segundo);
+                tabla.setValueAt("Long", primero, segundo + 1);
+                Table2.setModel(tabla);
+            } else if (metadata.getTipos().get(i).toString().equals("String")) {
+                tabla.setValueAt(metadata.getCampos().get(i), primero, segundo);
+                tabla.setValueAt("String", primero, segundo + 1);
+                Table2.setModel(tabla);
+            } else if (metadata.getTipos().get(i).toString().equals("Char")) {
+                tabla.setValueAt(metadata.getCampos().get(i), primero, segundo);
+                tabla.setValueAt("Char", primero, segundo + 1);
+                Table2.setModel(tabla);
+            }
+            primero++;
+        }
+
+       
+        jd_Cruzar.setModal(true);
+        jd_Cruzar.pack();
+        jd_Cruzar.setLocationRelativeTo(this);
+        jd_Cruzar.setVisible(true);
     }//GEN-LAST:event_jmi_cruzarActionPerformed
 
     private void jmi_crearindicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_crearindicesActionPerformed
@@ -1648,6 +1878,121 @@ public class Main extends javax.swing.JFrame {
         JDMODIFICAR_CAMPOS.setVisible(false);
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void Table2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Table2MouseClicked
+
+    private void Table2PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_Table2PropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Table2PropertyChange
+
+    private void Table3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table3MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Table3MouseClicked
+
+    private void Table3PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_Table3PropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Table3PropertyChange
+
+    private void jb_Cargar_CruzeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_Cargar_CruzeActionPerformed
+        // TODO add your handling code here:
+        Cargar_Archivo_2();
+        if (FileSuccess2 == 1) {
+            metadata2 = new Metadata();
+            try {
+                CargarMetadatos_2();
+            } catch (ClassNotFoundException ex) {
+            }
+        }
+        Table3.setForeground(Color.BLACK);
+        Table3.setBackground(Color.WHITE);
+        Table3.setFont(new Font("", 1, 22));
+        Table3.setRowHeight(30);
+        Table3.putClientProperty("terminateEditOnFocusLost", true);
+        String[] cols = {"", ""};
+        DefaultTableModel tabla = new DefaultTableModel();
+        tabla.addColumn("Campo");
+        tabla.addColumn("Tipo");
+        String tipo;
+        for (int i = 0; i < metadata2.getCampos().size(); i++) {
+            tabla.addRow(cols);
+        }
+
+        Table3.setModel(tabla);
+        int primero = 0;
+        int segundo = 0;
+
+        for (int i = 0; i < metadata2.getCampos().size(); i++) {
+            if (metadata2.getTipos().get(i).toString().equals("Int")) {
+                tabla.setValueAt(metadata2.getCampos().get(i).toString(), primero, segundo);
+                tabla.setValueAt("Entero", primero, segundo + 1);
+                Table3.setModel(tabla);
+            } else if (metadata2.getTipos().get(i).toString().equals("long")) {
+                tabla.setValueAt(metadata2.getCampos().get(i), primero, segundo);
+                tabla.setValueAt("Long", primero, segundo + 1);
+                Table3.setModel(tabla);
+            } else if (metadata.getTipos().get(i).toString().equals("String")) {
+                tabla.setValueAt(metadata2.getCampos().get(i), primero, segundo);
+                tabla.setValueAt("String", primero, segundo + 1);
+                Table3.setModel(tabla);
+            } else if (metadata.getTipos().get(i).toString().equals("Char")) {
+                tabla.setValueAt(metadata2.getCampos().get(i), primero, segundo);
+                tabla.setValueAt("Char", primero, segundo + 1);
+                Table3.setModel(tabla);
+            }
+            primero++;
+        }
+    }//GEN-LAST:event_jb_Cargar_CruzeActionPerformed
+
+    private void Table4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table4MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Table4MouseClicked
+
+    private void Table4PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_Table4PropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Table4PropertyChange
+
+    private void jb_Relacion_CamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_Relacion_CamposActionPerformed
+        // TODO add your handling code here:
+        Table4.setForeground(Color.BLACK);
+        Table4.setBackground(Color.WHITE);
+        Table4.setFont(new Font("", 1, 22));
+        Table4.setRowHeight(30);
+        Table4.putClientProperty("terminateEditOnFocusLost", true);
+        String[] cols = {""};
+        DefaultTableModel tabla = new DefaultTableModel();
+        tabla.addColumn("Campo");
+        String tipo;
+        
+        for (int i = 0; i < metadata2.getCampos().size()+metadata.getCampos().size(); i++) {
+            tabla.addRow(cols);
+        }
+
+        Table4.setModel(tabla);
+        int primero = 0;
+        int segundo = 0;
+        
+        for (int i = 0; i < metadata2.getCampos().size(); i++) {
+            if (metadata2.getTipos().get(i).toString().equals("Int")&& metadata.getCampos().get(i).toString().equals(metadata2.getCampos().get(i).toString())) {
+                tabla.setValueAt(metadata2.getCampos().get(i).toString(), primero, segundo);
+                Table4.setModel(tabla);
+            } else if (metadata2.getTipos().get(i).toString().equals("long")) {
+                tabla.setValueAt(metadata2.getCampos().get(i), primero, segundo);
+                
+                Table4.setModel(tabla);
+            } else if (metadata.getTipos().get(i).toString().equals("String")) {
+                tabla.setValueAt(metadata2.getCampos().get(i), primero, segundo);
+                tabla.setValueAt("String", primero, segundo + 1);
+                Table4.setModel(tabla);
+            } else if (metadata.getTipos().get(i).toString().equals("Char")) {
+                tabla.setValueAt(metadata2.getCampos().get(i), primero, segundo);
+                tabla.setValueAt("Char", primero, segundo + 1);
+                Table4.setModel(tabla);
+            }
+            primero++;
+        }
+    }//GEN-LAST:event_jb_Relacion_CamposActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1692,6 +2037,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane Listar_Campos;
     private javax.swing.JTable Table;
     private javax.swing.JTable Table1;
+    private javax.swing.JTable Table2;
+    private javax.swing.JTable Table3;
+    private javax.swing.JTable Table4;
     private javax.swing.JButton btnCrear;
     private javax.swing.JButton btnCrear1;
     private javax.swing.JButton btnEliminar;
@@ -1713,6 +2061,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JButton jb_Cargar_Cruze;
+    private javax.swing.JButton jb_Relacion_Campos;
+    private javax.swing.JDialog jd_Cruzar;
     private javax.swing.JMenu jm_Archivo;
     private javax.swing.JMenu jm_Estandarizacion;
     private javax.swing.JMenu jm_Registros;
@@ -1738,15 +2089,25 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_modreg;
     private javax.swing.JMenuItem jmi_reindexar;
     private javax.swing.JScrollPane jsp_Tabla;
+    private javax.swing.JScrollPane jsp_Tabla_Campos1;
+    private javax.swing.JScrollPane jsp_Tabla_Campos2;
+    private javax.swing.JScrollPane jsp_Tabla_Cruce;
+    private java.awt.Label label1;
+    private java.awt.Label label2;
+    private java.awt.Label label3;
     private javax.swing.JTextField txtcr_nombre;
     private javax.swing.JTextField txtcr_nombre1;
     private javax.swing.JTextField txtnuevo_Nombre;
     // End of variables declaration//GEN-END:variables
     Metadata metadata;
+    Metadata metadata2;
     int FileSuccess;
     Metodos metodos = new Metodos();
     File file;
+    File file2;
+    int FileSuccess2;
     RandomAccessFile RAfile;
+    RandomAccessFile RAfile2;
     int mode = -1;
     int rowRemoval;
     TableModel cleanTable;
