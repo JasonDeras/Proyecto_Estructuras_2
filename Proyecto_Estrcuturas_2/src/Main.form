@@ -789,6 +789,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jmi_reindexar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Re Indexar Archivos"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_reindexarActionPerformed"/>

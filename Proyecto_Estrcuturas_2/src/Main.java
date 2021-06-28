@@ -277,7 +277,6 @@ public class Main extends javax.swing.JFrame {
         Registro temporal = new Registro(Integer.parseInt(insertarray[0].toString()));
 
         if (metadata.getArbolB().search(temporal) == null) {
-            if (Integer.parseInt(insertarray[0].toString()) >= 1 && Integer.parseInt(insertarray[0].toString()) < 100000) {
                 metadata.getArbolB().insert(temporal);
                 modelo.addRow(insertarray);
                 metadata.addnumregistros();
@@ -288,9 +287,7 @@ public class Main extends javax.swing.JFrame {
                 }
 
                 Table.setModel(modelo);
-            } else {
-                JOptionPane.showMessageDialog(null, "Ingrese valores entre 9999 y 100,000");
-            }
+            
 
         } else {
             JOptionPane.showMessageDialog(null, "Una Instancia del Registro ya existe.");
@@ -1275,6 +1272,7 @@ public class Main extends javax.swing.JFrame {
         jm_indices.add(jmi_crearindices);
 
         jmi_reindexar.setText("Re Indexar Archivos");
+        jmi_reindexar.setEnabled(false);
         jmi_reindexar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmi_reindexarActionPerformed(evt);
@@ -1332,6 +1330,15 @@ public class Main extends javax.swing.JFrame {
     private void jmi_Nuevo_ArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Nuevo_ArchivoActionPerformed
         // TODO add your handling code here:
         Nuevo_Archivo();
+        jmi_Campos.setEnabled(true);
+        jmi_Modificar_Campo.setEnabled(true);
+        jmi_Crear_Campo.setEnabled(true);
+        jmi_Borrar_Campo.setEnabled(true);
+        jm_Registros.setEnabled(true);
+        jm_indices.setEnabled(true);
+        jm_Estandarizacion.setEnabled(true);
+        jmi_Salvar_Archivo.setEnabled(true);
+        jmi_Cerrar_Archivo.setEnabled(true);
     }//GEN-LAST:event_jmi_Nuevo_ArchivoActionPerformed
 
     private void jmi_Salvar_ArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Salvar_ArchivoActionPerformed
@@ -1378,6 +1385,9 @@ public class Main extends javax.swing.JFrame {
                     listcampos.add(c);
                 }
                 jmi_Campos.setEnabled(true);
+                jmi_Modificar_Campo.setEnabled(false);
+                jmi_Crear_Campo.setEnabled(false);
+                jmi_Borrar_Campo.setEnabled(false);
                 jm_Registros.setEnabled(true);
                 jm_indices.setEnabled(true);
                 jm_Estandarizacion.setEnabled(true);
@@ -1674,11 +1684,6 @@ public class Main extends javax.swing.JFrame {
         System.out.println("=========================================");
         System.out.println(metadata.getLlave_secundaria());
     }//GEN-LAST:event_jmi_crearindicesActionPerformed
-
-    private void jmi_reindexarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_reindexarActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jmi_reindexarActionPerformed
 
     private void jmi_Exportar_ExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_Exportar_ExcelActionPerformed
         // TODO add your handling code here:
@@ -1993,6 +1998,10 @@ public class Main extends javax.swing.JFrame {
             primero++;
         }
     }//GEN-LAST:event_jb_Relacion_CamposActionPerformed
+
+    private void jmi_reindexarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_reindexarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmi_reindexarActionPerformed
 
     /**
      * @param args the command line arguments
